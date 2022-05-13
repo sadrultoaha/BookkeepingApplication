@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookkeepingApi.Models.Dtos;
 
 namespace BookkeepingApi.Controllers
 {
@@ -16,27 +17,53 @@ namespace BookkeepingApi.Controllers
     {
         private readonly IPredefinedRecordsService _predefinedRecordsService;
 
-        public PredefinedRecordsController(PredefinedRecordsService PredefinedRecordsService)
+        public PredefinedRecordsController(IPredefinedRecordsService PredefinedRecordsService)
         {
             _predefinedRecordsService = PredefinedRecordsService;
         }
 
-        [Route("AllRecords")]
+        [Route("GetAll")]
         [HttpGet]
-        public async Task<ActionResult> GetPredefinedRecords(string year)
+        public async Task<ActionResult> Get()
         {
-            List<PredefinedRecords> list;
-            list = await _predefinedRecordsService.GetAllPredefinedRecordsByYear(year);
-            if (list == null) return StatusCode(StatusCodes.Status404NotFound, new { status = false, message = "UnableToLoad", SecurityPermissions = list });
-            return StatusCode(StatusCodes.Status200OK, new { status = true, message = "LoadedSuccessfully", BookRecordList = list });
+            PredefinedIncomeCostDto list = await _predefinedRecordsService.GetAllPredefinedRecordsByYear(2020);
+
+            if (list == null) return StatusCode(StatusCodes.Status404NotFound, new { status = false, message = "Unable To Load", PredefinedRecordList = list });
+            return StatusCode(StatusCodes.Status200OK, new { status = true, message = "Loaded Successfully", PredefinedRecordList = list });
+        }
+
+        [Route("GetById")]
+        [HttpGet]
+        public async Task<ActionResult> GetById([FromQuery] int id)
+        {
+            PredefinedRecords model = await _predefinedRecordsService.GetPredefinedRecordById(id);
+
+            if (model == null) return StatusCode(StatusCodes.Status404NotFound, new { status = false, message = "Unable To Load", PredefinedRecord = model });
+            return StatusCode(StatusCodes.Status200OK, new { status = true, message = "Loaded Successfully", PredefinedRecord = model });
+        }
+
+        [Route("CreateRecords")]
+        [HttpPatch]
+        public async Task<ActionResult> Create([FromForm] PredefinedRecords model)
+        {
+            Response IsCreated = await _predefinedRecordsService.CreatePredefinedRecord(model);
+            return StatusCode(IsCreated.StatusCode, new { status = IsCreated.Status, message = IsCreated.Message });
         }
 
         [Route("UpdateRecords")]
         [HttpPatch]
-        public async Task<ActionResult> UpdatePredefinedRecords([FromForm] PredefinedRecords model)
+        public async Task<ActionResult> Update([FromForm] PredefinedRecords model)
         {
-            Response IsUpdated = await _predefinedRecordsService.UpdatePredefinedRecords(model);
+            Response IsUpdated = await _predefinedRecordsService.UpdatePredefinedRecord(model);
             return StatusCode(IsUpdated.StatusCode, new { status = IsUpdated.Status, message = IsUpdated.Message });
+        }
+
+        [Route("DeleteRecords")]
+        [HttpPatch]
+        public async Task<ActionResult> Delete([FromForm] int id)
+        {
+            Response IsDeleted = await _predefinedRecordsService.DeletePredefinedRecord(id);
+            return StatusCode(IsDeleted.StatusCode, new { status = IsDeleted.Status, message = IsDeleted.Message });
         }
     }
 }

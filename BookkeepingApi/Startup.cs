@@ -33,6 +33,10 @@ namespace BookkeepingApi
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
+
+            services.AddScoped<IPredefinedRecordsRepository, PredefinedRecordsRepository>();
+            services.AddScoped<IPredefinedRecordsService, PredefinedRecordsService>();
+
             services.AddScoped<IReconciliationRecordsRepository, ReconciliationRecordsRepository>();
             services.AddScoped<IReconciliationRecordsService, ReconciliationRecordsService>();
 

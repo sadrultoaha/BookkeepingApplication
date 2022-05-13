@@ -6,7 +6,7 @@ namespace BookkeepingApi.Helpers
 {
     public static class DependencyInjections
     {
-        public static void ConfigureServices(this IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IPredefinedRecordsRepository, PredefinedRecordsRepository>();
             services.AddScoped<IPredefinedRecordsService, PredefinedRecordsService>();

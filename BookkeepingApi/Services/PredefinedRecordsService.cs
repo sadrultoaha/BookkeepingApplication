@@ -1,4 +1,5 @@
 ﻿using BookkeepingApi.Models;
+using BookkeepingApi.Models.Dtos;
 using BookkeepingApi.Repository;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,11 @@ namespace BookkeepingApi.Services
 {
     public interface IPredefinedRecordsService
     {
-        Task<List<PredefinedRecords>> GetAllPredefinedRecordsByYear(string year);
-        Task<Response> UpdatePredefinedRecords(PredefinedRecords model);
+        Task<PredefinedIncomeCostDto> GetAllPredefinedRecordsByYear(int year);
+        Task<PredefinedRecords> GetPredefinedRecordById(int id);
+        Task<Response> CreatePredefinedRecord(PredefinedRecords model);
+        Task<Response> UpdatePredefinedRecord(PredefinedRecords model);
+        Task<Response> DeletePredefinedRecord(int id);
     }
     public class PredefinedRecordsService:IPredefinedRecordsService
     {
@@ -20,19 +24,30 @@ namespace BookkeepingApi.Services
         {
             _predefinedRecordsRepository = PredefinedRecordsRepository;
         }
-
-        public async Task<List<PredefinedRecords>> GetAllPredefinedRecordsByYear(string year)
+        public async Task<PredefinedIncomeCostDto> GetAllPredefinedRecordsByYear(int year)
         {
-            var list = await _predefinedRecordsRepository.GetAllPredefinedRecordsByYear(year);
+            PredefinedIncomeCostDto list = await _predefinedRecordsRepository.GetAllPredefinedRecordsByYear(year);
             return list;
-
         }
-
-        public async Task<Response> UpdatePredefinedRecords(PredefinedRecords model)
+        public async Task<PredefinedRecords> GetPredefinedRecordById(int id)
         {
-            Response IsUpdated = await _predefinedRecordsRepository.UpdatePredefinedRecords(model);
-
+            PredefinedRecords model = await _predefinedRecordsRepository.GetPredefinedRecordById(id);
+            return model;
+        }
+        public async Task<Response>CreatePredefinedRecord(PredefinedRecords model)
+        {
+            Response IsCreated = await _predefinedRecordsRepository.CreatePredefinedRecord(model);
+            return IsCreated;
+        }
+        public async Task<Response> UpdatePredefinedRecord(PredefinedRecords model)
+        {
+            Response IsUpdated = await _predefinedRecordsRepository.UpdatePredefinedRecord(model);
             return IsUpdated;
+        }
+        public async Task<Response> DeletePredefinedRecord(int id)
+        {
+            Response IsDeleted = await _predefinedRecordsRepository.DeletePredefinedRecord(id);
+            return IsDeleted;
         }
     }
 }
