@@ -24,9 +24,9 @@ namespace BookkeepingApi.Controllers
 
         [Route("GetAll")]
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromQuery] int year)
         {
-            PredefinedIncomeCostDto list = await _predefinedRecordsService.GetAllPredefinedRecordsByYear(2020);
+            PredefinedIncomeCostDto list = await _predefinedRecordsService.GetAllPredefinedRecordsByYear(year);
 
             if (list == null) return StatusCode(StatusCodes.Status404NotFound, new { status = false, message = "Unable To Load", PredefinedRecordList = list });
             return StatusCode(StatusCodes.Status200OK, new { status = true, message = "Loaded Successfully", PredefinedRecordList = list });

@@ -34,13 +34,13 @@ namespace BookkeepingApi
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
 
-            services.AddScoped<IPredefinedRecordsRepository, PredefinedRecordsRepository>();
+/*            services.AddScoped<IPredefinedRecordsRepository, PredefinedRecordsRepository>();
             services.AddScoped<IPredefinedRecordsService, PredefinedRecordsService>();
 
             services.AddScoped<IReconciliationRecordsRepository, ReconciliationRecordsRepository>();
-            services.AddScoped<IReconciliationRecordsService, ReconciliationRecordsService>();
+            services.AddScoped<IReconciliationRecordsService, ReconciliationRecordsService>();*/
 
-            //DependencyInjections.ConfigureServices(services);
+            DependencyInjections.ConfigureServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
