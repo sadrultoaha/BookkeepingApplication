@@ -41,10 +41,9 @@ namespace BookkeepingApi.Repository
                 {
                     string sql = @"
 
-                                    --IF OBJECT_ID('#IncomeCost') IS NOT NULL 
-                                    --DROP TABLE #IncomeCost
-                                    --GO
-
+                                    IF OBJECT_ID('tempdb..#IncomeCost') IS NOT NULL
+                                    DROP TABLE #IncomeCost
+                                    
                                     SELECT
                                         RT.[ActionName] as Action,
                                         YEAR(PR.[Date]) as Year,
@@ -93,10 +92,7 @@ namespace BookkeepingApi.Repository
                                         SUM(Amount)
                                         FOR [Month]
                                         IN ([Jan], [Feb], [Mar], [Apr], [May], [Jun], [Jul], [Aug], [Sep], [Oct], [Nov], [Dec])
-                                    ) as MonthWiseCumulativeIncomeCost; 
-
-                                    DROP TABLE #IncomeCost;
-                                    ";
+                                    ) as MonthWiseCumulativeIncomeCost; ";
 
                     using (SqlCommand cmd = new(sql, conn))
                     {
@@ -110,7 +106,7 @@ namespace BookkeepingApi.Repository
                             {
                                 list.Income = LoadIncomeCostData(dr);
                             }
-                            else if(dr["Action"].ToString() == "Cumulative Income")
+                            else if(dr["Action"].ToString() == "CumulativeIncome")
                             {
                                 list.CumulativeIncome = LoadIncomeCostData(dr);
                             }
