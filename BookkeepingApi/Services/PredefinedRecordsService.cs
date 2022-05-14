@@ -27,6 +27,10 @@ namespace BookkeepingApi.Services
         public async Task<PredefinedIncomeCostDto> GetAllPredefinedRecordsByYear(int year)
         {
             PredefinedIncomeCostDto list = await _predefinedRecordsRepository.GetAllPredefinedRecordsByYear(year);
+            list.CumulativeIncome = CumulativeSum(list.Income);
+            list.CumulativeCost = CumulativeSum(list.Cost);
+            list.Result = IncomeCostResult(list.Income, list.Cost);
+
             return list;
         }
         public async Task<PredefinedRecords> GetPredefinedRecordById(int id)
@@ -48,6 +52,52 @@ namespace BookkeepingApi.Services
         {
             Response IsDeleted = await _predefinedRecordsRepository.DeletePredefinedRecord(id);
             return IsDeleted;
+        }
+
+        private IncomeCostDto CumulativeSum(IncomeCostDto model)
+        {
+            IncomeCostDto cumulativeAmount = new();
+
+            cumulativeAmount.Year = model.Year;
+            cumulativeAmount.Action = model.Action;
+            cumulativeAmount.Details = "Cumulative " + model.Action.ToString();
+            cumulativeAmount.Jan = model.Jan;
+            cumulativeAmount.Feb = model.Jan + model.Feb;
+            cumulativeAmount.Mar = model.Jan + model.Feb + model.Mar;
+            cumulativeAmount.Apr = model.Jan + model.Feb + model.Mar + model.Apr;
+            cumulativeAmount.May = model.Jan + model.Feb + model.Mar + model.Apr + model.May;
+            cumulativeAmount.Jun = model.Jan + model.Feb + model.Mar + model.Apr + model.May + model.Jun;
+            cumulativeAmount.Jul = model.Jan + model.Feb + model.Mar + model.Apr + model.May + model.Jun + model.Jul;
+            cumulativeAmount.Aug = model.Jan + model.Feb + model.Mar + model.Apr + model.May + model.Jun + model.Jul + model.Aug;
+            cumulativeAmount.Sep = model.Jan + model.Feb + model.Mar + model.Apr + model.May + model.Jun + model.Jul + model.Aug + model.Sep;
+            cumulativeAmount.Oct = model.Jan + model.Feb + model.Mar + model.Apr + model.May + model.Jun + model.Jul + model.Aug + model.Sep + model.Oct;
+            cumulativeAmount.Nov = model.Jan + model.Feb + model.Mar + model.Apr + model.May + model.Jun + model.Jul + model.Aug + model.Sep + model.Oct + model.Nov;
+            cumulativeAmount.Dec = model.Jan + model.Feb + model.Mar + model.Apr + model.May + model.Jun + model.Jul + model.Aug + model.Sep + model.Oct + model.Nov + model.Dec;
+
+            return cumulativeAmount;
+        }
+
+        private IncomeCostDto IncomeCostResult(IncomeCostDto income, IncomeCostDto cost)
+        {
+            IncomeCostDto result = new();
+
+            result.Year = income.Year;
+            result.Action = "Income - Cost";
+            result.Details = "Result";
+            result.Jan = income.Jan - cost.Jan;
+            result.Feb = income.Feb - cost.Feb; 
+            result.Mar = income.Mar - cost.Mar; 
+            result.Apr = income.Apr - cost.Apr; 
+            result.May = income.May - cost.May; 
+            result.Jun = income.Jun - cost.Jun; 
+            result.Jul = income.Jul - cost.Jul; 
+            result.Aug = income.Aug - cost.Aug; 
+            result.Sep = income.Sep - cost.Sep; 
+            result.Oct = income.Oct - cost.Oct; 
+            result.Nov = income.Nov - cost.Nov; 
+            result.Dec = income.Dec - cost.Dec; 
+
+            return result;
         }
     }
 }

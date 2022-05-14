@@ -40,7 +40,6 @@ namespace BookkeepingApi.Repository
                 try
                 {
                     string sql = @"
-
                                     IF OBJECT_ID('tempdb..#IncomeCost') IS NOT NULL
                                     DROP TABLE #IncomeCost
                                     
@@ -66,33 +65,7 @@ namespace BookkeepingApi.Repository
                                         SUM(Amount)
                                         FOR [Month]
                                         IN ([Jan], [Feb], [Mar], [Apr], [May], [Jun], [Jul], [Aug], [Sep], [Oct], [Nov], [Dec])
-                                    ) as MonthWiseIncomeCost
-
-                                    UNION ALL
-
-                                    SELECT 
-                                        [Year],	
-	                                    (CASE WHEN [Action] = 'income' THEN 'Cumulative Income' ELSE 'Cumulative Cost' END) as Action,
-                                        [Jan] as Jan,
-                                        [Jan] + [Feb] as Feb,
-                                        [Jan] + [Feb] + [Mar] as Mar,
-                                        [Jan] + [Feb] + [Mar] + [Apr] as Apr,
-                                        [Jan] + [Feb] + [Mar] + [Apr] + [May] as May,
-                                        [Jan] + [Feb] + [Mar] + [Apr] + [May] + [Jun] as Jun,
-                                        [Jan] + [Feb] + [Mar] + [Apr] + [May] + [Jun] + [Jul] as Jul,
-                                        [Jan] + [Feb] + [Mar] + [Apr] + [May] + [Jun] + [Jul] + [Aug] as Aug,
-                                        [Jan] + [Feb] + [Mar] + [Apr] + [May] + [Jun] + [Jul] + [Aug] + [Sep] as Sep,
-                                        [Jan] + [Feb] + [Mar] + [Apr] + [May] + [Jun] + [Jul] + [Aug] + [Sep] + [Oct] as Oct,
-                                        [Jan] + [Feb] + [Mar] + [Apr] + [May] + [Jun] + [Jul] + [Aug] + [Sep] + [Oct] + [Nov] as Nov,
-                                        [Jan] + [Feb] + [Mar] + [Apr] + [May] + [Jun] + [Jul] + [Aug] + [Sep] + [Oct] + [Nov] + [Dec] as Dec
-                                    FROM #IncomeCost
-
-                                    PIVOT
-                                    (
-                                        SUM(Amount)
-                                        FOR [Month]
-                                        IN ([Jan], [Feb], [Mar], [Apr], [May], [Jun], [Jul], [Aug], [Sep], [Oct], [Nov], [Dec])
-                                    ) as MonthWiseCumulativeIncomeCost; ";
+                                    ) as MonthWiseIncomeCost;";
 
                     using (SqlCommand cmd = new(sql, conn))
                     {
@@ -106,18 +79,11 @@ namespace BookkeepingApi.Repository
                             {
                                 list.Income = LoadIncomeCostData(dr);
                             }
-                            else if(dr["Action"].ToString() == "CumulativeIncome")
-                            {
-                                list.CumulativeIncome = LoadIncomeCostData(dr);
-                            }
-                            else if(dr["Action"].ToString() == "Cost")
+                            else
                             {
                                 list.Cost = LoadIncomeCostData(dr);
                             }
-                            else
-                            {
-                                list.CumulativeCost = LoadIncomeCostData(dr);
-                            }
+
                         }
 
                         await dr.CloseAsync();
@@ -292,8 +258,11 @@ namespace BookkeepingApi.Repository
             model.Oct = Convert.ToDecimal(dr["Oct"]);
             model.Nov = Convert.ToDecimal(dr["Nov"]);
             model.Dec = Convert.ToDecimal(dr["Dec"]);
+            model.Details = model.Action;
 
             return model;
         }
+
+       
     }
 }

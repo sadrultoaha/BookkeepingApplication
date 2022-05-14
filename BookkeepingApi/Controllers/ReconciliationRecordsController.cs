@@ -26,7 +26,7 @@ namespace BookkeepingApi.Controllers
         public async Task<ActionResult> Get([FromQuery] int year)
         {
             List<ReconciliationRecords> list;
-            list = await _reconciliationRecordsService.GetAllReconciliationsByYear(2021);
+            list = await _reconciliationRecordsService.GetAllReconciliationsByYear(year);
 
             if (list == null)
             {

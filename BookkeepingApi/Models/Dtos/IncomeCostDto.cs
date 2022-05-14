@@ -4,6 +4,7 @@
     {
         public int Year { get; set; }
         public string Action { get; set; }
+        public string Details { get; set; }
         public decimal Jan { get; set; }
         public decimal Feb { get; set; }
         public decimal Mar { get; set; }
