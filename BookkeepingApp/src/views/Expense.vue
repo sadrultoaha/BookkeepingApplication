@@ -1,15 +1,14 @@
 <template>
-
-  <div>
-    <h3 style="text-align: center">Welcome to Bookkeeping Dashboard</h3>
+  <div class="row">
+    <div class="content">
+    <h3>Welcome to Bookkeeping Ex</h3>
   </div>
-
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'Expense',
-  components: {
-  }
-}
+  name: "Expense",
+  components: {},
+};
 </script>

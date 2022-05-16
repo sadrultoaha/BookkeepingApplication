@@ -7,13 +7,12 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@vueform/multiselect": "^2.1.2",
+    "axios": "^0.21.4",
     "core-js": "^3.6.5",
+    "moment": "^2.29.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "axios": "^0.21.4",
-    "bootstrap": "^5.0.0-beta3",
-    "bootstrap-scss": "^4.6.1",
-    "moment": "^2.29.1",
     "vue-toast-notification": "^2.0.1",
     "vue3-datepicker": "^0.2.5"
   },

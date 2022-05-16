@@ -14,6 +14,7 @@ namespace BookkeepingApi.Repository
     public interface IPredefinedRecordsRepository
     {
         Task<PredefinedIncomeCostDto> GetAllPredefinedRecordsByYear(int year);
+        Task<List<PredefinedRecords>> GetAllPredefinedRecords();
         Task<PredefinedRecords> GetPredefinedRecordById(int id);
         Task<Response> CreatePredefinedRecord(PredefinedRecords model);
         Task<Response> UpdatePredefinedRecord(PredefinedRecords model);
@@ -49,8 +50,8 @@ namespace BookkeepingApi.Repository
                                         SUBSTRING(DATENAME(m,PR.[Date]), 1, 3) as Month,
                                         SUM(PR.[Amount]) as Amount
                                     INTO #IncomeCost
-                                    FROM PredefinedRecords PR
-                                    INNER JOIN RecordTypes RT ON RT.Id=PR.TypeId
+                                    FROM [dbo].[PredefinedRecords] PR
+                                    INNER JOIN [dbo].[RecordTypes] RT ON RT.Id=PR.TypeId
                                     WHERE YEAR(PR.[Date]) = @year 
                                     GROUP BY Year(PR.[Date]), DATENAME(m,PR.[Date]), RT.[ActionName]
 
@@ -85,12 +86,64 @@ namespace BookkeepingApi.Repository
                             }
 
                         }
-
                         await dr.CloseAsync();
                     }
 
                 }
                 catch (Exception ex)
+                {
+                    return null;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        await conn.CloseAsync();
+                    }
+                }
+            }
+            return list;
+        }
+
+        public async Task<List<PredefinedRecords>> GetAllPredefinedRecords()
+        {
+            List<PredefinedRecords> list = new();
+            using (SqlConnection conn = new(_config.GetConnectionString("DefaultConnection")))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    await conn.OpenAsync();
+                }
+                try
+                {
+                    string sql = @" SELECT 
+                                         [Id]
+                                        ,[TypeId]
+                                        ,[Date]
+                                        ,[Amount]
+                                    FROM [dbo].[PredefinedRecords];";
+
+                    using (SqlCommand cmd = new(sql, conn))
+                    {
+                        SqlDataReader dr = await cmd.ExecuteReaderAsync();
+
+                        while (await dr.ReadAsync())
+                        {
+                            PredefinedRecords model = new();
+
+                            model.Id = Convert.ToInt32(dr["Id"]);
+                            model.TypeId = Convert.ToInt32(dr["TypeId"]);
+                            model.Date = Convert.ToDateTime(dr["Date"]);
+                            model.Amount = Convert.ToDecimal(dr["Amount"]);
+
+                            list.Add(model);
+                        }
+
+                        await dr.CloseAsync();
+                    }
+
+                }
+                catch (Exception)
                 {
                     return null;
                 }
@@ -115,7 +168,13 @@ namespace BookkeepingApi.Repository
                 }
                 try
                 {
-                    string sql = "";
+                    string sql = @" SELECT 
+                                         [Id]
+                                        ,[TypeId]
+                                        ,[Date]
+                                        ,[Amount]
+                                    FROM [dbo].[PredefinedRecords]
+                                    WHERE Id = @id;";
 
                     using (SqlCommand cmd = new(sql, conn))
                     {
@@ -125,7 +184,10 @@ namespace BookkeepingApi.Repository
 
                         while (await dr.ReadAsync())
                         {
-
+                            model.Id = Convert.ToInt32(dr["Id"]);
+                            model.TypeId = Convert.ToInt32(dr["TypeId"]);
+                            model.Date = Convert.ToDateTime(dr["Date"]);
+                            model.Amount = Convert.ToDecimal(dr["Amount"]);
                         }
 
                         await dr.CloseAsync();
@@ -156,12 +218,17 @@ namespace BookkeepingApi.Repository
                 }
                 try
                 {
-                    string sql = "";
+                    string sql = @"INSERT INTO [dbo].[PredefinedRecords] ([TypeId], [Date], [Amount]) VALUES (@TypeId, @Date, @Amount);";
 
-                    using (SqlCommand cmd = new(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
+                        cmd.Parameters.Add(new SqlParameter { ParameterName = "@TypeId", Value = model.TypeId, SqlDbType = SqlDbType.Int });
+                        cmd.Parameters.Add(new SqlParameter { ParameterName = "@Date", Value = model.Date , SqlDbType = SqlDbType.DateTime });
+                        cmd.Parameters.Add(new SqlParameter { ParameterName = "@Amount", Value = model.Amount, SqlDbType = SqlDbType.Decimal });
+
                         await cmd.ExecuteNonQueryAsync();
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -187,10 +254,20 @@ namespace BookkeepingApi.Repository
                 }
                 try
                 {
-                    string sql = "";
+                    string sql = @"UPDATE [dbo].[PredefinedRecords]
+                                   SET
+                                      [TypeId] = @TypeId
+                                      [Date] = @Date
+                                      [Amount] = @Amount
+                                   WHERE Id = @Id;";
 
-                    using (SqlCommand cmd = new(sql, conn))
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
+                        cmd.Parameters.Add(new SqlParameter { ParameterName = "@Id", Value = model.Id, SqlDbType = SqlDbType.Int });
+                        cmd.Parameters.Add(new SqlParameter { ParameterName = "@TypeId", Value = model.TypeId, SqlDbType = SqlDbType.Int });
+                        cmd.Parameters.Add(new SqlParameter { ParameterName = "@Date", Value = model.Date, SqlDbType = SqlDbType.DateTime });
+                        cmd.Parameters.Add(new SqlParameter { ParameterName = "@Amount", Value = model.Amount, SqlDbType = SqlDbType.Decimal });
+
                         await cmd.ExecuteNonQueryAsync();
                     }
                 }
@@ -218,10 +295,11 @@ namespace BookkeepingApi.Repository
                 }
                 try
                 {
-                    string sql = "";
+                    string sql = @"Delete FROM [dbo].[PredefinedRecords] WHERE Id = @id;";
 
                     using (SqlCommand cmd = new(sql, conn))
                     {
+                        cmd.Parameters.Add(new SqlParameter { ParameterName = "@id", Value = id, SqlDbType = SqlDbType.Int });
                         await cmd.ExecuteNonQueryAsync();
                     }
                 }

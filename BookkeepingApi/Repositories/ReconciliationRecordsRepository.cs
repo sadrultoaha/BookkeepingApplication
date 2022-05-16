@@ -54,8 +54,8 @@ namespace BookkeepingApi.Repository
                                     ,SUM(RR.[Oct]) as Oct
                                     ,SUM(RR.[Nov]) as Nov
                                     ,SUM(RR.[Dec]) as Dec
-                                FROM [ReconciliationRecords] RR 
-                                INNER JOIN [RecordTypes] RT on RT.[Id] = RR.[TypeId]
+                                FROM [dbo].[ReconciliationRecords] RR 
+                                INNER JOIN [dbo].[RecordTypes] RT on RT.[Id] = RR.[TypeId]
                                 WHERE RR.[Year] = @year
                                 GROUP BY RR.[TypeId], RT.[ActionName], RT.[TypeName], RR.[Id]
                                 ORDER BY RT.[ActionName] DESC, RT.[TypeName];";

@@ -11,6 +11,7 @@ namespace BookkeepingApi.Services
     public interface IPredefinedRecordsService
     {
         Task<PredefinedIncomeCostDto> GetAllPredefinedRecordsByYear(int year);
+        Task<List<PredefinedRecords>> GetAllPredefinedRecords();
         Task<PredefinedRecords> GetPredefinedRecordById(int id);
         Task<Response> CreatePredefinedRecord(PredefinedRecords model);
         Task<Response> UpdatePredefinedRecord(PredefinedRecords model);
@@ -27,10 +28,17 @@ namespace BookkeepingApi.Services
         public async Task<PredefinedIncomeCostDto> GetAllPredefinedRecordsByYear(int year)
         {
             PredefinedIncomeCostDto list = await _predefinedRecordsRepository.GetAllPredefinedRecordsByYear(year);
-            list.CumulativeIncome = CumulativeSum(list.Income);
-            list.CumulativeCost = CumulativeSum(list.Cost);
-            list.Result = IncomeCostResult(list.Income, list.Cost);
-
+            if(list.Cost!=null && list.Income!=null)
+            {
+                list.CumulativeIncome = CumulativeSum(list.Income);
+                list.CumulativeCost = CumulativeSum(list.Cost);
+                list.Result = IncomeCostResult(list.Income, list.Cost);
+            }
+            return list;
+        }
+        public async Task<List<PredefinedRecords>> GetAllPredefinedRecords()
+        {
+            List<PredefinedRecords> list = await _predefinedRecordsRepository.GetAllPredefinedRecords();
             return list;
         }
         public async Task<PredefinedRecords> GetPredefinedRecordById(int id)

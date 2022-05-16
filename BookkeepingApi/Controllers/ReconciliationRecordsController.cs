@@ -11,7 +11,6 @@ namespace BookkeepingApi.Controllers
     [Route("api/[controller]")]
     [EnableCors("AllowOrigin")]
     [ApiController]
-    
     public class ReconciliationRecordsController : ControllerBase
     {
        private readonly IReconciliationRecordsService _reconciliationRecordsService;
@@ -30,10 +29,10 @@ namespace BookkeepingApi.Controllers
 
             if (list == null)
             {
-                return StatusCode(StatusCodes.Status404NotFound, new { status = false, message = "Unable To Load.", SecurityPermissions = list });
+                return StatusCode(StatusCodes.Status404NotFound, new { status = false, message = "Unable To Load.", list = list });
             }
 
-            return StatusCode(StatusCodes.Status200OK, new { status = true, message = "Loaded Successfully.", BookRecordList = list });
+            return StatusCode(StatusCodes.Status200OK, new { status = true, message = "Loaded Successfully.", list = list });
         }
 
         [Route("Reconcile")]

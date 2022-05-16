@@ -2,35 +2,36 @@
 <template>
   <div class="sidenav">
     <router-link class="nav-link" :to="'/'">Dashboard</router-link>
-    <hr />
+    <span><hr /></span>
 
     <router-link class="nav-link" :to="'/income'">Income</router-link>
-    <hr />
+    <span><hr /></span>
 
     <router-link class="nav-link" :to="'/expense'">Expense</router-link>
-    <hr />
+    <span><hr /></span>
 
     <router-link class="nav-link" :to="'/reconciliation'"
       >Recociliation</router-link
     >
-    <hr />
-</div>
+    <span><hr /></span>
+  </div>
 </template>
+
 
 <style scoped>
 .sidenav {
+  position: fixed;
+  z-index: 1;
+  overflow: auto;
   height: 100%;
   width: 250px;
-  position:fixed;
   background-color: rgba(147, 196, 125, 1);
   border-style: solid;
   border-color: #212529;
-  overflow: hidden;
   padding-left: 10px;
   padding-right: 10px;
-  top:48px;
-  left:0px
-
+  top: 48px;
+  left: 0px;
 }
 
 .nav-link {
@@ -53,6 +54,7 @@
 .nav-link:active {
   color: white;
 }
+
 .sidenav hr {
   margin-top: 0rem;
   margin-bottom: 1rem;
@@ -60,12 +62,24 @@
   margin-right: 10px;
   border-top: 3px solid black;
 }
-@media screen and (max-height: 450px) {
+@media screen and (max-width: 700px) {
   .sidenav {
-    padding-top: 15px;
+    width: 100%;
+    height: auto;
+    position: relative;
   }
-  .sidenav a {
-    font-size: 18px;
+  .sidenav a, span {
+    float: left;
+  }
+  div.content {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .sidenav a, span {
+    text-align: center;
+    float: none;
   }
 }
 </style>
