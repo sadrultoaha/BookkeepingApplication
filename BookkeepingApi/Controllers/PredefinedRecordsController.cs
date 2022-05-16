@@ -22,7 +22,18 @@ namespace BookkeepingApi.Controllers
             _predefinedRecordsService = PredefinedRecordsService;
         }
 
-        [Route("GetAll")]
+        [Route("AllByYear")]
+        [HttpGet]
+        public async Task<ActionResult> GetByYear([FromQuery] int year)
+        {
+            PredefinedIncomeCostDto list = await _predefinedRecordsService.GetAllPredefinedRecordsByYear(year);
+
+            if (list == null) return StatusCode(StatusCodes.Status404NotFound, new { status = false, message = "Unable To Load", PredefinedRecordList = list });
+            return StatusCode(StatusCodes.Status200OK, new { status = true, message = "Loaded Successfully", PredefinedRecordList = list });
+        }
+
+
+        [Route("All")]
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery] int year)
         {
@@ -42,7 +53,7 @@ namespace BookkeepingApi.Controllers
             return StatusCode(StatusCodes.Status200OK, new { status = true, message = "Loaded Successfully", PredefinedRecord = model });
         }
 
-        [Route("CreateRecords")]
+        [Route("Create")]
         [HttpPatch]
         public async Task<ActionResult> Create([FromForm] PredefinedRecords model)
         {
@@ -50,7 +61,7 @@ namespace BookkeepingApi.Controllers
             return StatusCode(IsCreated.StatusCode, new { status = IsCreated.Status, message = IsCreated.Message });
         }
 
-        [Route("UpdateRecords")]
+        [Route("Update")]
         [HttpPatch]
         public async Task<ActionResult> Update([FromForm] PredefinedRecords model)
         {
@@ -58,7 +69,7 @@ namespace BookkeepingApi.Controllers
             return StatusCode(IsUpdated.StatusCode, new { status = IsUpdated.Status, message = IsUpdated.Message });
         }
 
-        [Route("DeleteRecords")]
+        [Route("Delete")]
         [HttpPatch]
         public async Task<ActionResult> Delete([FromForm] int id)
         {

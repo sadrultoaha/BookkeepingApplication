@@ -21,7 +21,7 @@ namespace BookkeepingApi.Controllers
             _reconciliationRecordsService = reconciliationRecordsService;
         }
 
-        [Route("GetAll")]
+        [Route("AllByYear")]
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery] int year)
         {
@@ -37,7 +37,7 @@ namespace BookkeepingApi.Controllers
         }
 
         [Route("Reconcile")]
-        [HttpPost]
+        [HttpPatch]
         public async Task<ActionResult> Update([FromForm] ReconciliationRecords model)
         {
             if (model == null)
