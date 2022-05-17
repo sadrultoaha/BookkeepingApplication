@@ -249,7 +249,6 @@ export default {
     return {
       selectedYear: null,
       rowSpan: {},
-      monthCols: {'jan':0, 'feb':0, 'mar':0, 'apr':0,'may':0, 'jun':0,'jul':0, 'aug':0,'sep':0,'oct':0,'nov':0,'dec':0},
       years: ["2018", "2019", "2020", "2021", "2022"],
       predefinedIncomeCostList: {
         income: {},
@@ -288,17 +287,6 @@ export default {
       if (response.list.cost != null) {
         this.predefinedIncomeCostList = response.list;
       }
-      else
-      {
-        this.predefinedIncomeCostList = {};
-        this.predefinedIncomeCostList = {
-        income: {},
-        cumulativeIncome: {},
-        cost:{},
-        cumulativeCost:{},
-        result:{},
-        }
-      }
     },
     async getReconciliationList() {
       let response = await BookkeepingService.getAllReconciliationsByYear(
@@ -312,21 +300,7 @@ export default {
           obj.action = this.reconciliationList[i].action;
           this.reconciliationList[i].numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == obj.action.toLowerCase();}).length);
         }
-      }
-      else
-      {
-        this.reconciliationList= [];
-        this.recordTypesList.forEach( itm => 
-        {
-          var obj = {};
-          obj.action = itm.actionName.toUpperCase();
-          obj.details = itm.typeName.toUpperCase();
-          obj.year =  Number(this.selectedYear); 
-          obj.typeId = Number(itm.id);
-          obj.numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == itm.actionName;}).length);
-          this.reconciliationList.push(obj);
-        });
-      }
+      } 
     },
     async getRecordTypesList() {
       let response = await BookkeepingService.getAllRecordTypes();
