@@ -52,40 +52,40 @@
                   {{ idx == "result" ? "Result" : "" }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.jan }}
+                  {{ item.jan != null ? item.jan : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.feb }}
+                  {{ item.feb != null ? item.feb : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.mar }}
+                  {{ item.mar != null ? item.mar : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.apr }}
+                  {{ item.apr != null ? item.apr : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.may }}
+                  {{ item.may != null ? item.may : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.jun }}
+                  {{ item.jun != null ? item.jun : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.jul }}
+                  {{ item.jul != null ? item.jul : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.aug }}
+                  {{ item.aug != null ? item.aug : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.sep }}
+                  {{ item.sep != null ? item.sep : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.oct }}
+                  {{ item.oct != null ? item.oct : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.nov }}
+                  {{ item.nov != null ? item.nov : 0 }}
                 </td>
                 <td :class="[idx != 'result' ? 'dark-gray' : '']">
-                  {{ item.dec }}
+                  {{ item.dec != null ? item.dec : 0 }}
                 </td>
               </tr>
               <tr>
@@ -112,7 +112,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.jan }}
+                  {{ item2.jan != null ? item2.jan : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -120,7 +120,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.feb }}
+                  {{ item2.feb != null ? item2.feb : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -128,7 +128,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.mar }}
+                  {{ item2.mar != null ? item2.mar : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -136,7 +136,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.apr }}
+                  {{ item2.apr != null ? item2.apr : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -144,7 +144,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.may }}
+                  {{ item2.may != null ? item2.may : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -152,7 +152,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.jun }}
+                  {{ item2.jun != null ? item2.jun : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -160,7 +160,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.jul }}
+                  {{ item2.jul != null ? item2.jul : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -168,7 +168,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.aug }}
+                  {{ item2.aug != null ? item2.aug : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -176,7 +176,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.sep }}
+                  {{ item2.sep != null ? item2.sep : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -184,7 +184,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.oct }}
+                  {{ item2.oct != null ? item2.oct : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -192,7 +192,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.nov }}
+                  {{ item2.nov != null ? item2.nov : 0 }}
                 </td>
                 <td
                   contenteditable
@@ -200,7 +200,7 @@
                   @keyup.delete="onRemove(idx2)"
                   :class="[idx2 != 'result' ? 'dark-gray' : '']"
                 >
-                  {{ item2.dec }}
+                  {{ item2.dec != null ? item2.dec : 0 }}
                 </td>
               </tr>
               </template>
@@ -249,6 +249,7 @@ export default {
     return {
       selectedYear: null,
       rowSpan: {},
+      monthCols: {'jan':0, 'feb':0, 'mar':0, 'apr':0,'may':0, 'jun':0,'jul':0, 'aug':0,'sep':0,'oct':0,'nov':0,'dec':0},
       years: ["2018", "2019", "2020", "2021", "2022"],
       predefinedIncomeCostList: {
         income: {},
@@ -278,7 +279,41 @@ export default {
         await this.getIncomCostList();
         await this.getReconciliationList();
       }
-      if(this.reconciliationList.length <=0 || this.recordTypesList.length <=0) 
+      
+    },
+    async getIncomCostList() {
+      let response = await BookkeepingService.getPredefinedRecordsByYear(
+        this.selectedYear
+      );
+      if (response.list.cost != null) {
+        this.predefinedIncomeCostList = response.list;
+      }
+      else
+      {
+        this.predefinedIncomeCostList = {};
+        this.predefinedIncomeCostList = {
+        income: {},
+        cumulativeIncome: {},
+        cost:{},
+        cumulativeCost:{},
+        result:{},
+        }
+      }
+    },
+    async getReconciliationList() {
+      let response = await BookkeepingService.getAllReconciliationsByYear(
+        this.selectedYear
+      );
+      if (response.list.length > 0){
+        this.reconciliationList = response.list;
+        for (let i = 0; i < this.reconciliationList.length; i++) 
+        {
+          var obj={};
+          obj.action = this.reconciliationList[i].action;
+          this.reconciliationList[i].numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == obj.action.toLowerCase();}).length);
+        }
+      }
+      else
       {
         this.reconciliationList= [];
         this.recordTypesList.forEach( itm => 
@@ -291,29 +326,6 @@ export default {
           obj.numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == itm.actionName;}).length);
           this.reconciliationList.push(obj);
         });
-      }
-    },
-    async getIncomCostList() {
-      let response = await BookkeepingService.getPredefinedRecordsByYear(
-        this.selectedYear
-      );
-      if (response) {
-        this.predefinedIncomeCostList = response.list;
-      }
-    },
-    async getReconciliationList() {
-      let response = await BookkeepingService.getAllReconciliationsByYear(
-        this.selectedYear
-      );
-      if (response) {
-        this.reconciliationList = response.list;
-        for (let i = 0; i < this.reconciliationList.length; i++) 
-        {
-          var obj={};
-          obj.action = this.reconciliationList[i].action;
-          this.reconciliationList[i].numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == obj.action.toLowerCase();}).length);
-        }
-
       }
     },
     async getRecordTypesList() {
@@ -334,8 +346,9 @@ export default {
       jsonData.ReconciliationRecordList = this.reconciliationList;
       let response = await BookkeepingService.Reconcile(jsonData);
       if (response) {
-        this.$toast.success(res.data.message);
-        this.getReconciliationList();
+        await this.getReconciliationList();
+        this.$toast.success(response.message);
+        
       }
     },
   },
