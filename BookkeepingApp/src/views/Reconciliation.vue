@@ -207,12 +207,12 @@
             </tbody>
           </table>
         </div>
-        <div class="col-md-4">
-          <div class="form-group">
+        <div class="col-md-3">
+          
             <button @click="updateReconciliations" type="button" class="button">
               Save
             </button>
-          </div>
+         
         </div>
       </form>
     </div>
@@ -249,7 +249,6 @@ export default {
     return {
       selectedYear: null,
       rowSpan: {},
-      monthCols: {'jan':0, 'feb':0, 'mar':0, 'apr':0,'may':0, 'jun':0,'jul':0, 'aug':0,'sep':0,'oct':0,'nov':0,'dec':0},
       years: ["2018", "2019", "2020", "2021", "2022"],
       predefinedIncomeCostList: {
         income: {},
