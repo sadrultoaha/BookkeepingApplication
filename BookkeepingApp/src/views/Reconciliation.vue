@@ -99,7 +99,7 @@
                     item2.details == actionWiseTypes[0].typeName.toUpperCase() ||
                     item2.details == actionWiseTypes[1].typeName.toUpperCase()
                   "
-                  :rowspan="this.rowSpanLen"
+                  :rowspan="item2.numOfTypes"
                 >
                   {{ item2.action || item2.actionName.toUpperCase() }}
                 </td>
@@ -234,21 +234,21 @@ export default {
   async mounted() {
     await this.getRecordTypesList();  
     await this.getActionWiseOneTypeList();
-    this.recordTypesList.forEach( itm => 
+    this.recordTypesList.forEach( itm =>
     {
-      var obj = {'details':'', 'typeId':0};
+      var obj = {};
       obj.action = itm.actionName.toUpperCase();
       obj.details = itm.typeName.toUpperCase();
       obj.year =  Number(this.selectedYear); 
       obj.typeId = Number(itm.id);
+      obj.numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == itm.actionName;}).length);
       this.reconciliationList.push(obj);
     });
-
   },
   data() {
     return {
       selectedYear: null,
-      rowSpanLen: [],
+      rowSpan: {},
       years: ["2018", "2019", "2020", "2021", "2022"],
       predefinedIncomeCostList: {
         income: {},
@@ -261,7 +261,6 @@ export default {
       actionNames: ["income", "expense"],
       recordTypesList:[],
       actionWiseTypes: []
-
     };
   },
   methods: {
@@ -284,11 +283,12 @@ export default {
         this.reconciliationList= [];
         this.recordTypesList.forEach( itm => 
         {
-          var obj = {'details':'', 'typeId':0};
+          var obj = {};
           obj.action = itm.actionName.toUpperCase();
           obj.details = itm.typeName.toUpperCase();
           obj.year =  Number(this.selectedYear); 
           obj.typeId = Number(itm.id);
+          obj.numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == itm.actionName;}).length);
           this.reconciliationList.push(obj);
         });
       }
@@ -307,6 +307,13 @@ export default {
       );
       if (response) {
         this.reconciliationList = response.list;
+        for (let i = 0; i < this.reconciliationList.length; i++) 
+        {
+          var obj={};
+          obj.action = this.reconciliationList[i].action;
+          this.reconciliationList[i].numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == obj.action.toLowerCase();}).length);
+        }
+
       }
     },
     async getRecordTypesList() {
