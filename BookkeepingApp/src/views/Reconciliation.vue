@@ -19,42 +19,65 @@
           <table class="table table-bordered table-responsive">
             <thead>
               <tr>
-                <span clas = "justify-content-center">Year {{ this.selectedYear }} </span>
+                <th colspan="14" style="text-align:center">Year {{ this.selectedYear }}</th>
               </tr>
             </thead>
+
             <tbody>
               <tr>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col">Jan</th>
-                <th scope="col">Feb</th>
-                <th scope="col">Mar</th>
-                <th scope="col">Apr</th>
-                <th scope="col">May</th>
-                <th scope="col">Jun</th>
-                <th scope="col">Jul</th>
-                <th scope="col">Aug</th>
-                <th scope="col">Sep</th>
-                <th scope="col">Oct</th>
-                <th scope="col">Nov</th>
-                <th scope="col">Dec</th>
+                <th></th>
+                <th></th>
+                <th>Jan</th>
+                <th>Feb</th>
+                <th>Mar</th>
+                <th>Apr</th>
+                <th>May</th>
+                <th>Jun</th>
+                <th>Jul</th>
+                <th>Aug</th>
+                <th>Sep</th>
+                <th>Oct</th>
+                <th>Nov</th>
+                <th>Dec</th>
               </tr>
-              <tr v-for="(action, k1) in PredefinedIncomeCostList" :key="k1">
-                  <td></td>
-                  <td>{{ action.details }}</td>
-                  <td>{{ action.jan }}</td>
-                  <td>{{ action.feb }}</td>
-                  <td>{{ action.mar }}</td>
-                  <td>{{ action.apr }}</td>
-                  <td>{{ action.may }}</td>
-                  <td>{{ action.jun }}</td>
-                  <td>{{ action.jul }}</td>
-                  <td>{{ action.aug }}</td>
-                  <td>{{ action.sep }}</td>
-                  <td>{{ action.oct }}</td>
-                  <td>{{ action.nov }}</td>
-                  <td>{{ action.dec }}</td>
-
+              <tr v-for="(item, k) in PredefinedIncomeCostList" :key="k">
+                <td></td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.details }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.jan }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.feb }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.mar }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.apr }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.may }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.jun }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.jul }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.aug }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.sep }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.oct }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.nov }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item.dec }}</td>
+              </tr>
+              <tr>
+                <th></th>
+                <th colspan="14" style="text-align:center">Reconciliation</th>
+              </tr>
+              <tr v-for="(item2, k2) in ReconciliationList" :key="k2">
+                <td rowspan="item2.income.length" style="vertical-align : middle;text-align:center;">
+                {{ item2.length }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.details }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.jan }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.feb }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.mar }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.apr }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.may }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.jun }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.jul }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.aug }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.sep }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.oct }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.nov }}</td>
+                <td :class="[k != 'result' ? 'dark-gray': '']">{{ item2.dec }}</td>
+                
+               
               </tr>
             </tbody>
           </table>
@@ -85,9 +108,8 @@ export default {
   data() {
     return {
       selectedYear: null,
+      sz:3,
       years: ["2018", "2019", "2020", "2021", "2022"],
-      cost: {},
-      cumulativeCost: {},
       PredefinedIncomeCostList: [],
       ReconciliationList: [],
     };
@@ -115,6 +137,7 @@ export default {
       );
       if (response) {
         this.ReconciliationList = response.list;
+        console.log(this.ReconciliationList)
       }
     },
     async updateReconciliations(ReconciliationList) {
@@ -139,4 +162,47 @@ export default {
 </script>
 
 <style scoped>
+table {
+  width: 100%;
+}
+
+a {
+  cursor: pointer;
+}
+
+.year-dropdown {
+  margin-top: 100px;
+}
+.year-dropdown .dropdown-menu {
+  min-width: 8rem !important;
+  padding: 0 !important;
+}
+.year-dropdown .dropdown-divider {
+  margin: 0 !important;
+}
+.table-design table thead tr th,
+tbody tr th {
+  text-align: center;
+}
+.slim-gray {
+  background-color: #f2f2f2;
+}
+.dark-gray {
+  background-color: #d9d9d9;
+  text-align: right;
+}
+.table thead th,
+.table-bordered td,
+.table-bordered th {
+  border-color: #000 !important;
+}
+.thin-red {
+  background-color: #fff2cc;
+}
+
+@media (max-width: 575.98px) {
+  .year-dropdown {
+    margin-top: 50px;
+  }
+}
 </style>

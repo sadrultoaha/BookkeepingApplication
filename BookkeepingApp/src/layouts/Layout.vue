@@ -24,6 +24,10 @@ export default {
 <style>
 body {
   font-family: "Lato", sans-serif;
+  font-size:15px;
+}
+p{
+  font-size:15px;
 }
 div.content {
   margin: 45px 0px 0px 190px;
