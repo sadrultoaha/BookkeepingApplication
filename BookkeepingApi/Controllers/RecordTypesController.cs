@@ -42,9 +42,19 @@ namespace BookkeepingApi.Controllers
             return StatusCode(StatusCodes.Status200OK, new { status = true, message = "Loaded Successfully", model = model });
         }
 
+        [Route("GetActionWiseTypes")]
+        [HttpGet]
+        public async Task<ActionResult> GetTypes()
+        {
+            List<RecordTypes> list = await _recordTypesService.GetActionWiseTypes();
+
+            if (list == null) return StatusCode(StatusCodes.Status404NotFound, new { status = false, message = "Unable To Load", list = list });
+            return StatusCode(StatusCodes.Status200OK, new { status = true, message = "Loaded Successfully", list = list });
+        }
+
         [Route("Create")]
         [HttpPatch]
-        public async Task<ActionResult> Create([FromForm] RecordTypes model)
+        public async Task<ActionResult> Create([FromBody] RecordTypes model)
         {
             Response IsCreated = await _recordTypesService.CreateRecordType(model);
             return StatusCode(IsCreated.StatusCode, new { status = IsCreated.Status, message = IsCreated.Message });
@@ -52,7 +62,7 @@ namespace BookkeepingApi.Controllers
 
         [Route("Update")]
         [HttpPatch]
-        public async Task<ActionResult> Update([FromForm] RecordTypes model)
+        public async Task<ActionResult> Update([FromBody] RecordTypes model)
         {
             Response IsUpdated = await _recordTypesService.UpdateRecordType(model);
             return StatusCode(IsUpdated.StatusCode, new { status = IsUpdated.Status, message = IsUpdated.Message });
@@ -60,7 +70,7 @@ namespace BookkeepingApi.Controllers
 
         [Route("Delete")]
         [HttpPatch]
-        public async Task<ActionResult> Delete([FromForm] int id)
+        public async Task<ActionResult> Delete([FromBody] int id)
         {
             Response IsDeleted = await _recordTypesService.DeleteRecordType(id);
             return StatusCode(IsDeleted.StatusCode, new { status = IsDeleted.Status, message = IsDeleted.Message });

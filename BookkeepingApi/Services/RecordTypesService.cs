@@ -12,6 +12,7 @@ namespace BookkeepingApi.Services
     {
         Task<List<RecordTypes>> GetAllRecordTypes();
         Task<RecordTypes> GetRecordTypeById(int id);
+        Task<List<RecordTypes>> GetActionWiseTypes();
         Task<Response> CreateRecordType(RecordTypes model);
         Task<Response> UpdateRecordType(RecordTypes model);
         Task<Response> DeleteRecordType(int id);
@@ -33,6 +34,11 @@ namespace BookkeepingApi.Services
         {
             RecordTypes model = await _recordTypesRepository.GetRecordTypeById(id);
             return model;
+        }
+        public async Task<List<RecordTypes>> GetActionWiseTypes()
+        {
+            List<RecordTypes> list = await _recordTypesRepository.GetActionWiseTypes();
+            return list;
         }
         public async Task<Response>CreateRecordType(RecordTypes model)
         {

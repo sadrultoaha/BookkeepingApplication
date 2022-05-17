@@ -124,14 +124,14 @@ namespace BookkeepingApi.Repository
                                   + "' ,[Feb] = '" + model.Feb
                                   + "' ,[Mar] = '" + model.Mar
                                   + "' ,[Apr] = '" + model.Apr
-                                  + "' ,[Feb] = '" + model.May
-                                  + "' ,[Mar] = '" + model.Jun
-                                  + "' ,[Apr] = '" + model.Jul
-                                  + "' ,[Feb] = '" + model.Aug
-                                  + "' ,[Mar] = '" + model.Sep
-                                  + "' ,[Apr] = '" + model.Oct
-                                  + "' ,[Mar] = '" + model.Nov
-                                  + "' ,[Apr] = '" + model.Dec
+                                  + "' ,[May] = '" + model.May
+                                  + "' ,[Jun] = '" + model.Jun
+                                  + "' ,[Jul] = '" + model.Jul
+                                  + "' ,[Aug] = '" + model.Aug
+                                  + "' ,[Sep] = '" + model.Sep
+                                  + "' ,[Oct] = '" + model.Oct
+                                  + "' ,[Nov] = '" + model.Nov
+                                  + "' ,[Dec] = '" + model.Dec
 
                                   + "' WHERE [Id] = " + model.Id.ToString()
                                   + ";";
@@ -141,7 +141,7 @@ namespace BookkeepingApi.Repository
                 else
                 {
                     string createSql = @" INSERT INTO [dbo].[ReconciliationRecords] 
-                                       (TypeId, Year, Jan, Feb, Mar, May, Jun, Jul, Aug, Sep, Nov, Dec)
+                                       (TypeId, Year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec)
                                        VALUES
 
                                      (  " + model.TypeId.ToString()

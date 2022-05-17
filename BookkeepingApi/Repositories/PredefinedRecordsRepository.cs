@@ -322,20 +322,20 @@ namespace BookkeepingApi.Repository
         {
             IncomeCostDto model = new();
 
-            model.Year = Convert.ToInt32(dr["Year"]);
+            model.Year = Convert.ToInt32(dr["Year"] as int?);
             model.Action = Convert.ToString(dr["Action"]);
-            model.Jan = Convert.ToDecimal(dr["Jan"]);
-            model.Feb = Convert.ToDecimal(dr["Feb"]);
-            model.Mar = Convert.ToDecimal(dr["Mar"]);
-            model.Apr = Convert.ToDecimal(dr["Apr"]);
-            model.May = Convert.ToDecimal(dr["May"]);
-            model.Jun = Convert.ToDecimal(dr["Jun"]);
-            model.Jul = Convert.ToDecimal(dr["Jul"]);
-            model.Aug = Convert.ToDecimal(dr["Aug"]);
-            model.Sep = Convert.ToDecimal(dr["Sep"]);
-            model.Oct = Convert.ToDecimal(dr["Oct"]);
-            model.Nov = Convert.ToDecimal(dr["Nov"]);
-            model.Dec = Convert.ToDecimal(dr["Dec"]);
+            model.Jan = Convert.ToDecimal(dr["Jan"] as decimal?);
+            model.Feb = Convert.ToDecimal(dr["Feb"] as decimal?);
+            model.Mar = Convert.ToDecimal(dr["Mar"] as decimal?);
+            model.Apr = Convert.ToDecimal(dr["Apr"] as decimal?);
+            model.May = Convert.ToDecimal(dr["May"] as decimal?);
+            model.Jun = Convert.ToDecimal(dr["Jun"] as decimal?);
+            model.Jul = Convert.ToDecimal(dr["Jul"] as decimal?);
+            model.Aug = Convert.ToDecimal(dr["Aug"] as decimal?);
+            model.Sep = Convert.ToDecimal(dr["Sep"] as decimal?);
+            model.Oct = Convert.ToDecimal(dr["Oct"] as decimal?);
+            model.Nov = Convert.ToDecimal(dr["Nov"] as decimal?);
+            model.Dec = Convert.ToDecimal(dr["Dec"] as decimal?);
             model.Details = model.Action;
 
             return model;

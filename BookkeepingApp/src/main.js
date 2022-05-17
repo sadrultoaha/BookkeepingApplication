@@ -15,6 +15,5 @@ app.use(VueToast, {
     duration:30000,
     dismissible: true
 });
-
 app.use(router);
 app.mount('#app');

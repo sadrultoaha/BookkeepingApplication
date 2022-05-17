@@ -37,7 +37,7 @@ namespace BookkeepingApi.Controllers
 
         [Route("Reconcile")]
         [HttpPatch]
-        public async Task<ActionResult> Update([FromForm] ReconciliationRecords model)
+        public async Task<ActionResult> Update([FromBody] ReconciliationRecords model)
         {
             if (model == null)
             {

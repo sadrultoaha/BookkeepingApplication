@@ -15,6 +15,7 @@ namespace BookkeepingApi.Repository
     {
         Task<List<RecordTypes>> GetAllRecordTypes();
         Task<RecordTypes> GetRecordTypeById(int id);
+        Task<List<RecordTypes>> GetActionWiseTypes();
         Task<Response> CreateRecordType(RecordTypes model);
         Task<Response> UpdateRecordType(RecordTypes model);
         Task<Response> DeleteRecordType(int id);
@@ -39,7 +40,7 @@ namespace BookkeepingApi.Repository
                 }
                 try
                 {
-                    string sql = @"SELECT [Id], [ActionName], [TypeName] FROM [dbo].[RecordTypes];";
+                    string sql = @"SELECT [Id], [ActionName], [TypeName] FROM [dbo].[RecordTypes] ORDER BY [ActionName] Desc, [TypeName];";
 
                     using (SqlCommand cmd = new(sql, conn))
                     {
@@ -118,6 +119,52 @@ namespace BookkeepingApi.Repository
             }
             return model;
         }
+        public async Task<List<RecordTypes>> GetActionWiseTypes()
+        {
+            List<RecordTypes> list = new();
+            using (SqlConnection conn = new(_config.GetConnectionString("DefaultConnection")))
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    await conn.OpenAsync();
+                }
+                try
+                {
+                    string sql = @"SELECT MIN([TypeName]) as TypeName FROM [dbo].[RecordTypes]
+                                     GROUP BY ActionName;";
+
+                    using (SqlCommand cmd = new(sql, conn))
+                    {
+                        SqlDataReader dr = await cmd.ExecuteReaderAsync();
+
+                        while (await dr.ReadAsync())
+                        {
+                            RecordTypes model = new();
+
+                            model.TypeName = Convert.ToString(dr["TypeName"]);
+
+                            list.Add(model);
+                        }
+
+                        await dr.CloseAsync();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        await conn.CloseAsync();
+                    }
+                }
+            }
+            return list;
+        }
+
         public async Task<Response> CreateRecordType(RecordTypes model)
         {
             using (SqlConnection conn = new(_config.GetConnectionString("DefaultConnection")))

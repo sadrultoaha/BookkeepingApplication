@@ -89,6 +89,18 @@ class BookkeepingService {
         )
         return response
     }
+    async getActionWiseTypes() {
+        const response = await axiosInstance.get('RecordTypes/GetActionWiseTypes').then(
+            response => {
+                return response.data
+            }
+        ).catch(
+            error => {
+                return null
+            }
+        )
+        return response
+    }
     async getRecordTypeById(id) {
         const response = await axiosInstance.get('RecordTypes/ById', { params: { "id": id } }).then(
             response => {
