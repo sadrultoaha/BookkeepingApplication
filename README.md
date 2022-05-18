@@ -29,21 +29,21 @@
 
 #### If you want to fast preview the application without creating any predefined data form the pages, then you can run following sql script in sql server database to prepare few sample dataset from project directory. 
 
-#### As the income/expense types are dynamically loaded in the reconciliation page, so predefied types are requred for reconcililation. 
-
 --> `BookkeepingApplication/Sql scripts/PredefinedIncomeExpenseDataEntry.sql`
+
+#### As the income/expense types are dynamically loaded in the reconciliation page, so predefined types are required for reconcililation. 
 
 ## 4.ASP.NET Project Run.
 
-#### Execute the .sln file from project directory --> `BookkeepingApplication/BookkeepingApi/BookkeepingApi.sln`
+#### Execute the .Net project .sln file from project directory --> `BookkeepingApplication/BookkeepingApi/BookkeepingApi.sln`
 
 ## 5.Vue Js Project Run.
 
-#### Project setup and install package dependacies by going to the project directory then open a command prompt with this directory --> `BookkeepingApplication/BookkeepingApp` and execute following command.
+#### Project setup and install package dependacies by going to the project directory then open a command prompt within this directory --> `BookkeepingApplication/BookkeepingApp` and execute following command.
 ```
 npm install
 ```
-### and 
+### and then
 
 #### Run frontend server using the following command:
 ```
