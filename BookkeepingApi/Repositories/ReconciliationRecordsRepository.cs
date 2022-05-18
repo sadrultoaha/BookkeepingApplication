@@ -39,8 +39,8 @@ namespace BookkeepingApi.Repository
                     string sql = @"SELECT 
                                      RR.[Id]
                                     ,RR.[TypeId]
-                                    ,UPPER(RT.[ActionName]) as Action
-                                    ,UPPER(RT.[TypeName]) as Details
+                                    ,UPPER(RT.[ActionName]) as ActionName
+                                    ,UPPER(RT.[TypeName]) as TypeName
                                     ,@year as Year
                                     ,SUM(RR.[Jan]) as Jan
                                     ,SUM(RR.[Feb]) as Feb
@@ -72,8 +72,8 @@ namespace BookkeepingApi.Repository
 
                             model.Id = Convert.ToInt32(dr["Id"]);
                             model.TypeId = Convert.ToInt32(dr["TypeId"]);
-                            model.Action = Convert.ToString(dr["Action"]);
-                            model.Details = Convert.ToString(dr["Details"]);
+                            model.ActionName = Convert.ToString(dr["ActionName"]);
+                            model.TypeName = Convert.ToString(dr["TypeName"]);
                             model.Year = Convert.ToInt32(dr["Year"]);
                             model.Jan = Convert.ToDecimal(dr["Jan"]);
                             model.Feb = Convert.ToDecimal(dr["Feb"]);

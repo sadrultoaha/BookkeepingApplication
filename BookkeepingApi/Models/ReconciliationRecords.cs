@@ -22,8 +22,8 @@ namespace BookkeepingApi.Models
 
 
         // DTO Fields
-        public string Action { get; set; }
-        public string Details { get; set; }
+        public string ActionName { get; set; }
+        public string TypeName { get; set; }
         public virtual List<ReconciliationRecords> ReconciliationRecordList { get; set; }
     }
 }

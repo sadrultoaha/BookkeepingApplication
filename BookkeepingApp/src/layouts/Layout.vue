@@ -25,6 +25,7 @@ export default {
 body {
   font-family: sans-serif;
   font-size:13px;
+  /* background-color: rgb(90, 85, 85); */
 }
 p{
   font-size:12px;

@@ -28,7 +28,8 @@
   overflow: auto;
   height: 100%;
   width: 250px;
-  background-color: rgba(147, 196, 125, 1);
+  /* background-color: rgba(147, 196, 125, 1); */
+  background-color: black;
   border-style: solid;
   border-color: #212529;
   padding-left: 10px;
