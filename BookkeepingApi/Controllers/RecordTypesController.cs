@@ -53,7 +53,7 @@ namespace BookkeepingApi.Controllers
         }
 
         [Route("Create")]
-        [HttpPatch]
+        [HttpPost]
         public async Task<ActionResult> Create([FromBody] RecordTypes model)
         {
             Response IsCreated = await _recordTypesService.CreateRecordType(model);
@@ -69,8 +69,8 @@ namespace BookkeepingApi.Controllers
         }
 
         [Route("Delete")]
-        [HttpPatch]
-        public async Task<ActionResult> Delete([FromBody] int id)
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromQuery] int id)
         {
             Response IsDeleted = await _recordTypesService.DeleteRecordType(id);
             return StatusCode(IsDeleted.StatusCode, new { status = IsDeleted.Status, message = IsDeleted.Message });

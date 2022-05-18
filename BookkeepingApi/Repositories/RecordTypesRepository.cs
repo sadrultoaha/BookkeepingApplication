@@ -211,8 +211,8 @@ namespace BookkeepingApi.Repository
                 {
                     string sql = @"UPDATE [dbo].[RecordTypes]
                                    SET 
-                                   [ActionName] = @ActionName,
-                                   [TypeName] = @TypeName
+                                    [ActionName] = @ActionName
+                                   ,[TypeName] = @TypeName
                                    WHERE Id = @Id;";
 
                     using (SqlCommand cmd = new(sql, conn))

@@ -382,7 +382,7 @@ export default {
           obj.typeId = Number(itm.id);
           obj.numOfTypes = Number(
             this.recordTypesList.filter(function (e) {
-              return e.actionName == itm.actionName;
+              return e.actionName.toUpperCase() == itm.actionName.toUpperCase();
             }).length
           );
           this.reconciliationList.push(obj);

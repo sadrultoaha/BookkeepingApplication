@@ -63,7 +63,7 @@ class BookkeepingService {
         return response
     }
     async deletePredefinedRecord(id) {
-        const response = await axiosInstance.patch('PredefinedRecords/Delete', { params: { "id": id } }).then(
+        const response = await axiosInstance.delete('PredefinedRecords/Delete', { params: { "id": id } }).then(
             response => {
                 return response.data
             }
@@ -137,7 +137,7 @@ class BookkeepingService {
         return response
     }
     async deleteRecordTypes(id) {
-        const response = await axiosInstance.patch('RecordTypes/Delete', { params: { "id": id } }).then(
+        const response = await axiosInstance.delete('RecordTypes/Delete', { params: { "id": id } }).then(
             response => {
                 return response.data
             }
