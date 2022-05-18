@@ -27,7 +27,9 @@
 
 --> `BookkeepingApplication/Sql scripts/DBandTableCreation.sql`
 
-#### If you want to fast preview the application without creating any predefined data form the pages, then you can run following sql script in sql server database to prepare few sample dataset from project directory
+#### If you want to fast preview the application without creating any predefined data form the pages, then you can run following sql script in sql server database to prepare few sample dataset from project directory. 
+
+#### As the income/expense types are dynamically loaded in the reconciliation page, so predefied types are requred for reconcililation. 
 
 --> `BookkeepingApplication/Sql scripts/PredefinedIncomeExpenseDataEntry.sql`
 
