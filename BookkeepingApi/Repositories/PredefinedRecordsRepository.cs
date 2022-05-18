@@ -261,9 +261,9 @@ namespace BookkeepingApi.Repository
                 {
                     string sql = @"UPDATE [dbo].[PredefinedRecords]
                                    SET
-                                      [TypeId] = @TypeId
-                                      [Date] = @Date
-                                      [Amount] = @Amount
+                                       [TypeId] = @TypeId
+                                      ,[Date] = @Date
+                                      ,[Amount] = @Amount
                                    WHERE Id = @Id;";
 
                     using (SqlCommand cmd = new SqlCommand(sql, conn))

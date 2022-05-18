@@ -3,7 +3,7 @@
     <div class="row col-md-10 justify-content-center">
       <h4>Types Entry Page</h4>
     </div>
-    <div class="row" v-if="mode == 2">
+    <div class="row" v-if="mode != 1">
       <div class="col-md-3">
         <label for="actionName" class="form-label">Action Type</label>
         <Select
@@ -17,12 +17,12 @@
         />
       </div>
       <div class="col-md-2">
-        <label for="typeName ">Type Name</label>
+        <label for="typeName">Type Name</label>
         <input
           autocomplete="off"
           type="text"
           id="typeName"
-          v-model="recordTypes.amount"
+          v-model="recordTypes.typeName"
         />
       </div>
     </div>
@@ -45,7 +45,7 @@
       </div>
       <div class="col-md-6" v-if="mode == 3">
         <button
-          @click="updateAndEnableView('update')"
+          @click="updateAndEnableView"
           type="button"
           class="btn btn-warning"
         >
@@ -55,7 +55,7 @@
       <div class="col-md-6">
         <button
           v-if="mode == 2"
-          @click="saveAndEnableView('add')"
+          @click="saveAndEnableView"
           type="button"
           class="btn btn-success"
         >
@@ -72,7 +72,7 @@
     <br /><br />
     <form class="row">
       <div class="col-md-6 form-group">
-        <table class="table table-bordered table-responsive">
+        <table class="table table-bordered">
           <thead>
             <tr style="background: #f4f6ff">
               <th scope="col">Serial No</th>
@@ -82,28 +82,24 @@
               <th scope="col">Delete</th>
             </tr>
           </thead>
-          <tbody v-for="(list, index) in recordTypesList" :key="list">
+          <tbody v-for="(list, index) in recordTypesList" :key="index">
             <tr>
               <td>{{ index + 1 }}</td>
               <td>{{ list.actionName }}</td>
               <td>{{ list.typeName }}</td>
               <td>
                 <button
+                  @click="enableEdit(list)"
                   type="button"
-                  class="btn btn-danger"
-                  @click="deleteAndEnableView(list.id)"
-                >
-                  <i class="fa fa-minus-square"></i>
-                </button>
+                  class="btn-active"
+                ></button>
               </td>
               <td>
                 <button
-                  @click="enableEdit(list)"
                   type="button"
-                  class="btn btn-active"
-                >
-                  <i class="fa fa-plus-square"></i>
-                </button>
+                  class="btn-danger"
+                  @click="deleteAndEnableView(list.id)"
+                ></button>
               </td>
             </tr>
           </tbody>
@@ -118,6 +114,7 @@
 import Select from "@vueform/multiselect";
 import Datepicker from "vue3-datepicker";
 import moment from "moment";
+import BookkeepingService from "../services/BookkeepingService";
 export default {
   name: "Types",
   components: {
@@ -125,45 +122,66 @@ export default {
     Datepicker,
     moment,
   },
-  async mounted() {},
+  async mounted() {
+    await this.getRecordTypesList();
+  },
   data() {
     return {
       mode: 1, //1=view 2=add 3=edit
       recordTypesList: [],
       recordTypes: {},
-      actionNames: ["income", "expense"],
-      
+      actionNames: ["INCOME", "EXPENSE"],
     };
   },
   methods: {
     async getRecordTypesList() {
-      let response = await BookkeepingService.getAllrecordTypes();
+      let response = await BookkeepingService.getAllRecordTypes();
       if (response) {
         this.recordTypesList = response.list;
       }
     },
-     async saveAndEnableView() {
+    async saveAndEnableView() {
+      let userdata = this.recordTypes;
       let jsonData = {};
-      jsonData.recordTypes = this.recordTypes;
-      let response = await BookkeepingService.addPredefinedRecord(jsonData);
+
+      Object.entries(userdata).forEach(([key, value]) => {
+        if (value == null) {
+          jsonData[key] = "";
+        } else {
+          jsonData[key] = value;
+        }
+      });
+      let response = await BookkeepingService.addRecordType(jsonData);
       if (response) {
         await this.getRecordTypesList();
         this.$toast.success(response.message);
+        this.mode = 1;
       }
     },
     async updateAndEnableView() {
+      let userdata = this.recordTypes;
       let jsonData = {};
-      jsonData.recordTypes = this.recordTypes;
-      let response = await BookkeepingService.updatePredefinedRecord(jsonData);
+
+      Object.entries(userdata).forEach(([key, value]) => {
+        if (value == null) {
+          jsonData[key] = "";
+        } else {
+          jsonData[key] = value;
+        }
+      });
+
+      let response = await BookkeepingService.updateRecordType(jsonData);
       if (response) {
         await this.getRecordTypesList();
         this.$toast.success(response.message);
+        this.mode = 1;
       }
     },
-    async deletePredefinedRecord(id) {
-      let response = await BookkeepingService.Reconcile(id);
+    async deleteAndEnableView(id) {
+      let response = await BookkeepingService.deleteRecordTypes(id);
       if (response) {
-        await this.getReconciliationList();
+        await this.getRecordTypesList();
+        this.mode = 1;
       }
     },
     enableView() {
@@ -175,10 +193,11 @@ export default {
       this.mode = 2;
     },
     enableEdit(obj) {
-      this.recordTypes = obj;
+      this.recordTypes.id = obj.id;
+      this.recordTypes.actionName = obj.actionName;
+      this.recordTypes.typeName = obj.typeName;
       this.mode = 3;
-    }
-  
+    },
   },
 };
 </script>

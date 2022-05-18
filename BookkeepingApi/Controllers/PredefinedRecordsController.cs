@@ -54,7 +54,7 @@ namespace BookkeepingApi.Controllers
         }
 
         [Route("Create")]
-        [HttpPatch]
+        [HttpPost]
         public async Task<ActionResult> Create([FromBody] PredefinedRecords model)
         {
             Response IsCreated = await _predefinedRecordsService.CreatePredefinedRecord(model);
@@ -70,8 +70,8 @@ namespace BookkeepingApi.Controllers
         }
 
         [Route("Delete")]
-        [HttpPatch]
-        public async Task<ActionResult> Delete([FromBody] int id)
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromQuery] int id)
         {
             Response IsDeleted = await _predefinedRecordsService.DeletePredefinedRecord(id);
             return StatusCode(IsDeleted.StatusCode, new { status = IsDeleted.Status, message = IsDeleted.Message });
