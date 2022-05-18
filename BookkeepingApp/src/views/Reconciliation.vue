@@ -2,7 +2,7 @@
   <div class="row">
     <div class="content">
       <div class="col-md-3" style="font-family: cursive">
-        <label style="font-size:18px;">Choose Year</label>
+        <label style="font-size: 18px">Choose Year</label>
         <Select
           :options="years"
           v-model="selectedYear"
@@ -93,25 +93,20 @@
                 <th></th>
                 <th colspan="13" style="text-align: center">Reconciliation</th>
               </tr>
-              <!-- <template v-if="reconciliationList.length > 0"> -->
               <tr v-for="(item2, idx2) in reconciliationList" :key="idx2">
                 <td
                   v-if="
-                    item2.details.toUpperCase() ==
+                    item2.typeName.toUpperCase() ==
                       actionWiseTypes[0].typeName.toUpperCase() ||
-                    item2.details.toUpperCase() ==
+                    item2.typeName.toUpperCase() ==
                       actionWiseTypes[1].typeName.toUpperCase()
                   "
                   :rowspan="item2.numOfTypes"
                 >
-                  {{
-                    item2.action.toUpperCase() || item2.actionName.toUpperCase()
-                  }}
+                  {{ item2.actionName.toUpperCase() }}
                 </td>
                 <td>
-                  {{
-                    item2.details.toUpperCase() || item2.typeName.toUpperCase()
-                  }}
+                  {{ item2.typeName.toUpperCase() }}
                 </td>
                 <td
                   contenteditable
@@ -210,11 +205,10 @@
                   {{ item2.dec }}
                 </td>
               </tr>
-              <!-- </template> -->
               <tr v-for="(item3, idx3) in reconciliationResults" :key="idx3">
                 <td></td>
                 <td>
-                  {{ item3.details}}
+                  {{ item3.typeName }}
                 </td>
                 <td>
                   {{ item3.jan != null ? item3.jan : 0 }}
@@ -258,11 +252,15 @@
         </div>
       </form>
       <div class="row justify-content-center">
-        <button @click="updateReconciliations" type="button" class="btn btn-success">
+        <button
+          @click="updateReconciliations"
+          type="button"
+          class="btn btn-success"
+        >
           Save
         </button>
       </div>
-      <br>
+      <br />
     </div>
   </div>
 </template>
@@ -279,21 +277,20 @@ export default {
   async mounted() {
     await this.getRecordTypesList();
     await this.getActionWiseOneTypeList();
+
     this.recordTypesList.forEach((itm) => {
       var obj = {};
-      obj.action = itm.actionName.toUpperCase();
-      obj.details = itm.typeName.toUpperCase();
+      obj.actionName = itm.actionName.toUpperCase();
+      obj.typeName = itm.typeName.toUpperCase();
       obj.year = Number(this.selectedYear);
       obj.typeId = Number(itm.id);
       obj.numOfTypes = Number(
         this.recordTypesList.filter(function (e) {
-          return e.actionName == itm.actionName;
+          return e.actionName.toUpperCase() == itm.actionName.toUpperCase();
         }).length
       );
       this.reconciliationList.push(obj);
     });
-    this.reconciliationResults = [];
-    this.calcReconciliationResults();
   },
   data() {
     return {
@@ -309,7 +306,7 @@ export default {
       },
       reconciliationList: [],
       reconciliationResults: [],
-      actionNames: ["income", "expense"],
+      actionNames: ["INCOME", "EXPENSE"],
       recordTypesList: [],
       actionWiseTypes: [],
     };
@@ -318,20 +315,29 @@ export default {
     async onInput(event, index, id) {
       const value = event.target.innerText;
       this.reconciliationList[index][id] = Number(value);
-      this.reconciliationResults = [];
-      this.calcReconciliationResults();
+      if (this.reconciliationList[index][id] > 0) {
+        this.reconciliationResults = [];
+        await this.calcReconciliationResults();
+      }
     },
     async onRemove(index) {
       if (this.reconciliationList[index] >= 1) {
         this.reconciliationList[index] = 0;
+        this.reconciliationResults = [];
+        await this.calcReconciliationResults();
       }
-      this.reconciliationResults = [];
-      this.calcReconciliationResults();
     },
     async selectYear() {
-      if (this.sele.tedYear != null) {
+      if (this.selectedYear != null) {
         await this.getIncomCostList();
         await this.getReconciliationList();
+      }
+      if (
+        this.predefinedIncomeCostList.cost != null &&
+        this.reconciliationList != null
+      ) {
+        this.reconciliationResults = [];
+        await this.calcReconciliationResults();
       }
     },
     async getIncomCostList() {
@@ -359,10 +365,10 @@ export default {
         this.reconciliationList = response.list;
         for (let i = 0; i < this.reconciliationList.length; i++) {
           var obj = {};
-          obj.action = this.reconciliationList[i].action;
+          obj.actionName = this.reconciliationList[i].actionName;
           this.reconciliationList[i].numOfTypes = Number(
             this.recordTypesList.filter(function (e) {
-              return e.actionName.toUpperCase() == obj.action.toUpperCase();
+              return e.actionName.toUpperCase() == obj.actionName.toUpperCase();
             }).length
           );
         }
@@ -370,8 +376,8 @@ export default {
         this.reconciliationList = [];
         this.recordTypesList.forEach((itm) => {
           var obj = {};
-          obj.action = itm.actionName.toUpperCase();
-          obj.details = itm.typeName.toUpperCase();
+          obj.actionName = itm.actionName.toUpperCase();
+          obj.typeName = itm.typeName.toUpperCase();
           obj.year = Number(this.selectedYear);
           obj.typeId = Number(itm.id);
           obj.numOfTypes = Number(
@@ -407,7 +413,7 @@ export default {
     calcReconciliationResults() {
       let sumsArray = {};
       this.reconciliationList.forEach((item) => {
-        let sums = sumsArray[item.action];
+        let sums = sumsArray[item.actionName];
         if (sums) {
           sums.jan += item.jan;
           sums.feb += item.feb;
@@ -422,9 +428,9 @@ export default {
           sums.nov += item.nov;
           sums.dec += item.dec;
         } else {
-          sumsArray[item.action] = {
-            details: item.typeName,
-            action: item.action,
+          sumsArray[item.actionName] = {
+            typeName: item.typeName,
+            actionName: item.actionName,
             jan: item.jan,
             feb: item.feb,
             mar: item.mar,
@@ -443,21 +449,22 @@ export default {
 
       this.reconciliationResults.push(
         this.calcArrays(
-          sumsArray.income,
-          sumsArray.expense,
+          sumsArray.INCOME,
+          sumsArray.EXPENSE,
           "Reconciliation Result",
-          "-"
+          "opSub"
         )
       );
 
       this.reconciliationResults.push(
         this.calcArrays(
-          this.reconciliationResults[0],
           this.predefinedIncomeCostList.result,
+          this.reconciliationResults[0],
           "Final Result",
-          "+"
+          "opAdd"
         )
       );
+
       this.reconciliationResults.push(
         this.calcCumulativeSum(
           this.reconciliationResults[1],
@@ -465,15 +472,15 @@ export default {
         )
       );
     },
-    calcArrays(a, b, detail, op) {
+    calcArrays(a, b, typeName, op) {
       function calcObjectsByKey(...objs) {
         return objs.reduce((a, b) => {
           for (let k in b) {
-            if (k == "details") {
-              a[k] = detail;
+            if (k == "typeName") {
+              a[k] = typeName;
             } else if (b.hasOwnProperty(k)) {
-              if (op == "+") a[k] = (a[k] || 0) + (b[k] || 0);
-              else a[k] = -(a[k] || 0) - (b[k] || 0);
+              if (op == "opSub") a[k] = -(a[k] || 0) - (b[k] || 0);
+              else a[k] = (a[k] || 0) + (b[k] || 0);
             }
           }
           return a;
@@ -481,25 +488,61 @@ export default {
       }
       return calcObjectsByKey(a, b);
     },
-    calcCumulativeSum(a, detail) {
+    calcCumulativeSum(a, typeName) {
       let res = {};
-      res.details = detail;
-      res.jan = (a.jan || 0);
-      res.feb = (a.jan + a.feb || 0);
-      res.mar = (a.jan + a.feb + a.mar || 0);
-      res.apr = (a.jan + a.feb + a.mar + a.apr || 0);
-      res.may = (a.jan + a.feb + a.mar + a.apr + a.may || 0);
-      res.jun = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun || 0);
-      res.jul = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul || 0);
-      res.aug = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug || 0);
-      res.sep = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep || 0);
-      res.oct = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct || 0);
-      res.nov = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct + a.nov || 0);
-      res.dec = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct + a.nov + a.dec || 0);
+      res.typeName = typeName;
+      res.jan = a.jan || 0;
+      res.feb = a.jan + a.feb || 0;
+      res.mar = a.jan + a.feb + a.mar || 0;
+      res.apr = a.jan + a.feb + a.mar + a.apr || 0;
+      res.may = a.jan + a.feb + a.mar + a.apr + a.may || 0;
+      res.jun = a.jan + a.feb + a.mar + a.apr + a.may + a.jun || 0;
+      res.jul = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul || 0;
+      res.aug =
+        a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug || 0;
+      res.sep =
+        a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep ||
+        0;
+      res.oct =
+        a.jan +
+          a.feb +
+          a.mar +
+          a.apr +
+          a.may +
+          a.jun +
+          a.jul +
+          a.aug +
+          a.sep +
+          a.oct || 0;
+      res.nov =
+        a.jan +
+          a.feb +
+          a.mar +
+          a.apr +
+          a.may +
+          a.jun +
+          a.jul +
+          a.aug +
+          a.sep +
+          a.oct +
+          a.nov || 0;
+      res.dec =
+        a.jan +
+          a.feb +
+          a.mar +
+          a.apr +
+          a.may +
+          a.jun +
+          a.jul +
+          a.aug +
+          a.sep +
+          a.oct +
+          a.nov +
+          a.dec || 0;
 
       return res;
-    }
-  }
+    },
+  },
 };
 </script>
 

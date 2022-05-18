@@ -45,7 +45,7 @@ namespace BookkeepingApi.Repository
                                     DROP TABLE #IncomeCost
                                     
                                     SELECT
-                                        RT.[ActionName] as Action,
+                                        RT.[ActionName] as ActionName,
                                         YEAR(PR.[Date]) as Year,
                                         SUBSTRING(DATENAME(m,PR.[Date]), 1, 3) as Month,
                                         SUM(PR.[Amount]) as Amount
@@ -57,7 +57,7 @@ namespace BookkeepingApi.Repository
 
                                     SELECT 
                                         [Year],	
-	                                    (CASE WHEN [Action] = 'income' THEN 'Income' ELSE 'Cost' END) as Action,
+	                                    (CASE WHEN [ActionName] = 'income' THEN 'Income' ELSE 'Cost' END) as ActionName,
                                         [Jan], [Feb], [Mar], [Apr], [May], [Jun], [Jul], [Aug], [Sep], [Oct], [Nov], [Dec]
                                     FROM #IncomeCost
 
@@ -76,7 +76,7 @@ namespace BookkeepingApi.Repository
 
                         while (await dr.ReadAsync())
                         {
-                            if(dr["Action"].ToString() == "Income")
+                            if(dr["ActionName"].ToString() == "Income")
                             {
                                 list.Income = LoadIncomeCostData(dr);
                             }
@@ -124,8 +124,7 @@ namespace BookkeepingApi.Repository
                                         ,RT.[ActionName] as ActionName
                                         ,RT.[TypeName] as TypeName
                                     FROM [dbo].[PredefinedRecords] PR
-                                    INNER JOIN [dbo].[RecordTypes] RT ON RT.Id=PR.TypeId
-                                    WHERE YEAR(PR.[Date]) = @year ;";
+                                    INNER JOIN [dbo].[RecordTypes] RT ON RT.Id=PR.TypeId;";
 
                     using (SqlCommand cmd = new(sql, conn))
                     {
@@ -329,7 +328,7 @@ namespace BookkeepingApi.Repository
             IncomeCostDto model = new();
 
             model.Year = Convert.ToInt32(dr["Year"] as int?);
-            model.Action = Convert.ToString(dr["Action"]);
+            model.ActionName = Convert.ToString(dr["ActionName"]);
             model.Jan = Convert.ToDecimal(dr["Jan"] as decimal?);
             model.Feb = Convert.ToDecimal(dr["Feb"] as decimal?);
             model.Mar = Convert.ToDecimal(dr["Mar"] as decimal?);
@@ -342,7 +341,7 @@ namespace BookkeepingApi.Repository
             model.Oct = Convert.ToDecimal(dr["Oct"] as decimal?);
             model.Nov = Convert.ToDecimal(dr["Nov"] as decimal?);
             model.Dec = Convert.ToDecimal(dr["Dec"] as decimal?);
-            model.Details = model.Action;
+            model.TypeName = model.ActionName;
 
             return model;
         }

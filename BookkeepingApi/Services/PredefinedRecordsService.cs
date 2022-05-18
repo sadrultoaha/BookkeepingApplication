@@ -67,8 +67,8 @@ namespace BookkeepingApi.Services
             IncomeCostDto cumulativeAmount = new();
 
             cumulativeAmount.Year = model.Year;
-            cumulativeAmount.Action = model.Action;
-            cumulativeAmount.Details = "Cumulative " + model.Action.ToString();
+            cumulativeAmount.ActionName = model.ActionName;
+            cumulativeAmount.TypeName = "Cumulative " + model.ActionName.ToString();
             cumulativeAmount.Jan = model.Jan;
             cumulativeAmount.Feb = model.Jan + model.Feb;
             cumulativeAmount.Mar = model.Jan + model.Feb + model.Mar;
@@ -90,8 +90,8 @@ namespace BookkeepingApi.Services
             IncomeCostDto result = new();
 
             result.Year = income.Year;
-            result.Action = "Income - Cost";
-            result.Details = "Result";
+            result.ActionName = "Income - Cost";
+            result.TypeName = "Result";
             result.Jan = income.Jan - cost.Jan;
             result.Feb = income.Feb - cost.Feb; 
             result.Mar = income.Mar - cost.Mar; 
