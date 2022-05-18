@@ -39,8 +39,8 @@ class BookkeepingService {
         )
         return response
     }
-    async addPredefinedRecord(formData) {
-        const response = await axiosInstance.post('PredefinedRecords/Create', formData).then(
+    async addPredefinedRecord(data) {
+        const response = await axiosInstance.post('PredefinedRecords/Create', data).then(
             response => {
                 return response.data
             }).catch(
@@ -50,8 +50,8 @@ class BookkeepingService {
             )
         return response
     }
-    async updatePredefinedRecord(formData) {
-        const response = await axiosInstance.patch('PredefinedRecords/Update', formData).then(
+    async updatePredefinedRecord(data) {
+        const response = await axiosInstance.patch('PredefinedRecords/Update', data).then(
             response => {
                 return response.data
             }
@@ -113,8 +113,8 @@ class BookkeepingService {
         )
         return response
     }
-    async addRecordType(formData) {
-        const response = await axiosInstance.post('RecordTypes/Create', formData).then(
+    async addRecordType(data) {
+        const response = await axiosInstance.post('RecordTypes/Create', data).then(
             response => {
                 return response.data
             }).catch(
@@ -124,8 +124,8 @@ class BookkeepingService {
             )
         return response
     }
-    async updateRecordType(formData) {
-        const response = await axiosInstance.patch('RecordTypes/Update', formData).then(
+    async updateRecordType(data) {
+        const response = await axiosInstance.patch('RecordTypes/Update', data).then(
             response => {
                 return response.data
             }
@@ -162,8 +162,8 @@ class BookkeepingService {
         )
         return response
     }
-    async Reconcile(formData) {
-        const response = await axiosInstance.patch('ReconciliationRecords/Reconcile', formData).then(
+    async Reconcile(data) {
+        const response = await axiosInstance.patch('ReconciliationRecords/Reconcile', data).then(
             response => {
                 return response.data
             }

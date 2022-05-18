@@ -1,6 +1,7 @@
 <template>
-  <div class="row">
-    <div class="content">
+  <div class="content ">
+    <br><br>
+    <div class="row col-md-10 justify-content-center">
     <h3>Welcome to Bookkeeping Dashboard</h3>
     </div>
   </div>

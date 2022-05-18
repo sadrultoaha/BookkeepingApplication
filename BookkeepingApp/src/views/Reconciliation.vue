@@ -214,7 +214,7 @@
               <tr v-for="(item3, idx3) in reconciliationResults" :key="idx3">
                 <td></td>
                 <td>
-                  {{ item3.details || "--" }}
+                  {{ item3.details}}
                 </td>
                 <td>
                   {{ item3.jan != null ? item3.jan : 0 }}
@@ -269,17 +269,13 @@
 
 <script>
 import Select from "@vueform/multiselect";
-import Datepicker from "vue3-datepicker";
-import moment from "moment";
 import BookkeepingService from "../services/BookkeepingService";
 
 export default {
   name: "Reconciliation",
   components: {
     Select,
-    Datepicker,
   },
-  computed() {},
   async mounted() {
     await this.getRecordTypesList();
     await this.getActionWiseOneTypeList();
@@ -294,45 +290,10 @@ export default {
           return e.actionName == itm.actionName;
         }).length
       );
-
       this.reconciliationList.push(obj);
     });
-    this.reconciliationList = [];
-    this.reconciliationList = [
-      {
-        year: 2022,
-        details: "bonus",
-        numOfTypes: 2,
-        action: "income",
-        jan: 100,
-        feb: 50,
-      },
-      {
-        year: 2022,
-        details: "salary",
-        numOfTypes: 2,
-        action: "income",
-        jan: 100,
-        feb: 50,
-      },
-      {
-        year: 2022,
-        details: "bills",
-        numOfTypes: 2,
-        action: "expense",
-        jan: 50,
-        feb: 10,
-      },
-      {
-        year: 2022,
-        details: "rent",
-        numOfTypes: 2,
-        action: "expense",
-        jan: 50,
-        feb: 10,
-      },
-    ];
-    await this.calcReconciliationResults();
+    this.reconciliationResults = [];
+    this.calcReconciliationResults();
   },
   data() {
     return {
@@ -344,18 +305,13 @@ export default {
         cumulativeIncome: {},
         cost: {},
         cumulativeCost: {},
-        result: { jan: 50, feb: 100 },
+        result: {},
       },
       reconciliationList: [],
       reconciliationResults: [],
       actionNames: ["income", "expense"],
-      recordTypesList: [
-        { actionName: "income", typeName: "bonus" },
-        { actionName: "income", typeName: "salary" },
-        { actionName: "expense", typeName: "bills" },
-        { actionName: "expense", typeName: "rent" },
-      ],
-      actionWiseTypes: [{ typeName: "bonus" }, { typeName: "bills" }],
+      recordTypesList: [],
+      actionWiseTypes: [],
     };
   },
   methods: {
@@ -363,14 +319,14 @@ export default {
       const value = event.target.innerText;
       this.reconciliationList[index][id] = Number(value);
       this.reconciliationResults = [];
-      await this.calcReconciliationResults();
+      this.calcReconciliationResults();
     },
     async onRemove(index) {
       if (this.reconciliationList[index] >= 1) {
         this.reconciliationList[index] = 0;
       }
       this.reconciliationResults = [];
-      await this.calcReconciliationResults();
+      this.calcReconciliationResults();
     },
     async selectYear() {
       if (this.sele.tedYear != null) {
@@ -528,22 +484,22 @@ export default {
     calcCumulativeSum(a, detail) {
       let res = {};
       res.details = detail;
-      res.jan = a.jan;
-      res.feb = a.jan + a.feb;
-      res.mar = a.jan + a.feb + a.mar;
-      res.apr = a.jan + a.feb + a.mar + a.apr;
-      res.may = a.jan + a.feb + a.mar + a.apr + a.may;
-      res.jun = a.jan + a.feb + a.mar + a.apr + a.may + a.jun;
-      res.jul = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul;
-      res.aug = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug;
-      res.sep = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep;
-      res.oct = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct;
-      res.nov = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct + a.nov;
-      res.dec = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct + a.nov + a.dec;
+      res.jan = (a.jan || 0);
+      res.feb = (a.jan + a.feb || 0);
+      res.mar = (a.jan + a.feb + a.mar || 0);
+      res.apr = (a.jan + a.feb + a.mar + a.apr || 0);
+      res.may = (a.jan + a.feb + a.mar + a.apr + a.may || 0);
+      res.jun = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun || 0);
+      res.jul = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul || 0);
+      res.aug = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug || 0);
+      res.sep = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep || 0);
+      res.oct = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct || 0);
+      res.nov = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct + a.nov || 0);
+      res.dec = (a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct + a.nov + a.dec || 0);
 
       return res;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -551,11 +507,9 @@ export default {
 table {
   width: 100%;
 }
-
 a {
   cursor: pointer;
 }
-
 .fixed-color {
   background-color: #d9d9d9;
   text-align: right;
