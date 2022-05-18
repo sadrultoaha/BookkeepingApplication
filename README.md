@@ -2,12 +2,12 @@
 It's a sample app to keep record of day to day income and expenses informations.
 
 
-###Tech Stacks:
-##Front End: NodeJs 18.2, VueJs - 3, JavaScript;
+### Tech Stacks:
+## Front End: NodeJs 18.2, VueJs - 3, JavaScript;
 
-##Backend: ASP.NET Core - 5 Web API, C# 9;
+## Backend: ASP.NET Core - 5 Web API, C# 9;
 
-##DB: SQL Server 2019, MSSQL - 15;
+## DB: SQL Server 2019, MSSQL - 15;
 
 ### Guideline for Project Setup and Steps to Run :
 
