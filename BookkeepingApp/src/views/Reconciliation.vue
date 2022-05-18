@@ -505,7 +505,6 @@ export default {
       this.reconciliationResults.push(
         this.calcCumulativeSum(
           this.reconciliationResults[1],
-          this.reconciliationResults[1],
           "Cumulative Final Result"
         )
       );
@@ -527,7 +526,22 @@ export default {
       return calcObjectsByKey(a, b);
     },
     calcCumulativeSum(a, detail) {
-      return a;
+      let res = {};
+      res.details = detail;
+      res.jan = a.jan;
+      res.feb = a.jan + a.feb;
+      res.mar = a.jan + a.feb + a.mar;
+      res.apr = a.jan + a.feb + a.mar + a.apr;
+      res.may = a.jan + a.feb + a.mar + a.apr + a.may;
+      res.jun = a.jan + a.feb + a.mar + a.apr + a.may + a.jun;
+      res.jul = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul;
+      res.aug = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug;
+      res.sep = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep;
+      res.oct = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct;
+      res.nov = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct + a.nov;
+      res.dec = a.jan + a.feb + a.mar + a.apr + a.may + a.jun + a.jul + a.aug + a.sep + a.oct + a.nov + a.dec;
+
+      return res;
     },
   },
 };
