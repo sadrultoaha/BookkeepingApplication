@@ -1,5 +1,5 @@
 # Bookkeeping App
-It's a sample app to keep record of day to day income and expenses informations.
+##### It's a sample app to keep record of day to day income and expenses informations.
 
 
 ## Tech Stacks:
@@ -25,21 +25,25 @@ It's a sample app to keep record of day to day income and expenses informations.
 
 #### Run following sql script in sql server database to create db and tables, from project directory 
 
---> 'BookkeepingApplication/Sql scripts/DBandTableCreation.sql'
+--> `BookkeepingApplication/Sql scripts/DBandTableCreation.sql`
 
 #### If you want to fast preview the application without creating any predefined data form the pages, then you can run following sql script in sql server database to prepare few sample dataset from project directory
 
---> 'BookkeepingApplication/Sql scripts/PredefinedIncomeExpenseDataEntry.sql'
+--> `BookkeepingApplication/Sql scripts/PredefinedIncomeExpenseDataEntry.sql`
 
 ## 4.ASP.NET Project Run.
-Execute the .sln file from project directory --> 'BookkeepingApplication/BookkeepingApi/BookkeepingApi.sln'
+
+#### Execute the .sln file from project directory --> `BookkeepingApplication/BookkeepingApi/BookkeepingApi.sln`
 
 ## 5.Vue Js Project Run.
-## Project setup and install package dependacies using the following command:
+
+#### Project setup and install package dependacies by going to the project directory then open a command prompt with this directory --> `BookkeepingApplication/BookkeepingApp` and execute following command.
 ```
 npm install
 ```
-### Run frontend server using the following command:
+### and 
+
+#### Run frontend server using the following command:
 ```
 npm run serve
 ```
