@@ -4,7 +4,7 @@
     <router-link class="nav-link" :to="'/'">Dashboard</router-link>
     <span><hr /></span>
 
-    <router-link class="nav-link" :to="'/income'">Income Expense Types</router-link>
+    <router-link class="nav-link" :to="'/record-types'">Income Expense Types</router-link>
     <span><hr /></span>
 
     <router-link class="nav-link" :to="'/income'">Income</router-link>

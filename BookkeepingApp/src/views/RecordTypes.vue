@@ -5,40 +5,24 @@
     </div>
     <div class="row" v-if="mode == 2">
       <div class="col-md-3">
-        <label for="typeName" class="form-label">Types Type</label>
+        <label for="actionName" class="form-label">Action Type</label>
         <Select
           :searchable="true"
-          :options="recordTypesList"
-          v-model="predefinedRecords.typeId"
+          :options="actionNames"
+          v-model="recordTypes.actionName"
           type="text"
           autocomplete="off"
           class="form-control"
-          id="typeName "
-          trackBy="typeName"
-          name="typeName"
-          label="typeName"
-          valueProp="id"
           placeholder="Select"
         />
       </div>
-      <div class="col-md-3">
-        <label for="date">Date</label>
-        <Datepicker
-          v-model="predefinedRecords.date"
-          :lower-limit="new Date('01-01-2000')"
-          inputFormat="dd-MM-yyyy"
-          placeholder="dd-mm-yyyy"
-          id="date"
-          name="date"
-        />
-      </div>
       <div class="col-md-2">
-        <label for="amount">Amount</label>
+        <label for="typeName ">Type Name</label>
         <input
           autocomplete="off"
-          type="number"
-          id="amount"
-          v-model="predefinedRecords.amount"
+          type="text"
+          id="typeName"
+          v-model="recordTypes.amount"
         />
       </div>
     </div>
@@ -92,19 +76,17 @@
           <thead>
             <tr style="background: #f4f6ff">
               <th scope="col">Serial No</th>
+              <th scope="col">Action Name</th>
               <th scope="col">Type Name</th>
-              <th scope="col">Date</th>
-              <th scope="col">Amount</th>
               <th scope="col">Edit</th>
               <th scope="col">Delete</th>
             </tr>
           </thead>
-          <tbody v-for="(list, index) in predefinedRecordsList" :key="list">
+          <tbody v-for="(list, index) in recordTypesList" :key="list">
             <tr>
               <td>{{ index + 1 }}</td>
+              <td>{{ list.actionName }}</td>
               <td>{{ list.typeName }}</td>
-              <td>{{ list.date }}</td>
-              <td>{{ list.amount }}</td>
               <td>
                 <button
                   type="button"
@@ -148,38 +130,33 @@ export default {
     return {
       mode: 1, //1=view 2=add 3=edit
       recordTypesList: [],
-      predefinedRecordsList: {},
-      predefinedRecords: {},
+      recordTypes: {},
+      actionNames: ["income", "expense"],
+      
     };
   },
   methods: {
-    async getPredefinedRecordsList() {
-      let response = await BookkeepingService.getAllPredefinedRecords();
-      if (response) {
-        this.predefinedRecordsList = response.list;
-      }
-    },
     async getRecordTypesList() {
-      let response = await BookkeepingService.getAllRecordTypes();
+      let response = await BookkeepingService.getAllrecordTypes();
       if (response) {
         this.recordTypesList = response.list;
       }
     },
      async saveAndEnableView() {
       let jsonData = {};
-      jsonData.predefinedRecords = this.predefinedRecords;
+      jsonData.recordTypes = this.recordTypes;
       let response = await BookkeepingService.addPredefinedRecord(jsonData);
       if (response) {
-        await this.getReconciliationList();
+        await this.getRecordTypesList();
         this.$toast.success(response.message);
       }
     },
     async updateAndEnableView() {
       let jsonData = {};
-      jsonData.predefinedRecords = this.predefinedRecords;
+      jsonData.recordTypes = this.recordTypes;
       let response = await BookkeepingService.updatePredefinedRecord(jsonData);
       if (response) {
-        await this.getReconciliationList();
+        await this.getRecordTypesList();
         this.$toast.success(response.message);
       }
     },
@@ -191,14 +168,14 @@ export default {
     },
     enableView() {
       this.mode = 1;
-      this.predefinedRecords = {};
+      this.recordTypes = {};
     },
     enableAdd() {
-      this.predefinedRecords = {};
+      this.recordTypes = {};
       this.mode = 2;
     },
     enableEdit(obj) {
-      this.predefinedRecords = obj;
+      this.recordTypes = obj;
       this.mode = 3;
     }
   

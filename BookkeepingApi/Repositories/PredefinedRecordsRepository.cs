@@ -117,11 +117,15 @@ namespace BookkeepingApi.Repository
                 try
                 {
                     string sql = @" SELECT 
-                                         [Id]
-                                        ,[TypeId]
-                                        ,[Date]
-                                        ,[Amount]
-                                    FROM [dbo].[PredefinedRecords];";
+                                         PR.[Id]
+                                        ,PR.[TypeId]
+                                        ,PR.[Date]
+                                        ,PR.[Amount]
+                                        ,RT.[ActionName] as ActionName
+                                        ,RT.[TypeName] as TypeName
+                                    FROM [dbo].[PredefinedRecords] PR
+                                    INNER JOIN [dbo].[RecordTypes] RT ON RT.Id=PR.TypeId
+                                    WHERE YEAR(PR.[Date]) = @year ;";
 
                     using (SqlCommand cmd = new(sql, conn))
                     {
@@ -135,7 +139,9 @@ namespace BookkeepingApi.Repository
                             model.TypeId = Convert.ToInt32(dr["TypeId"]);
                             model.Date = Convert.ToDateTime(dr["Date"]);
                             model.Amount = Convert.ToDecimal(dr["Amount"]);
-
+                            model.ActionName = Convert.ToString(dr["ActionName"]);
+                            model.TypeName = Convert.ToString(dr["TypeName"]);
+                            
                             list.Add(model);
                         }
 

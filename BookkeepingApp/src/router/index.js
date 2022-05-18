@@ -12,7 +12,7 @@ const routes = [
         component: () => import("../views/Dashboard.vue")
       },
       {
-        path: '/income-expense-types',
+        path: '/record-types',
         name: 'Types',
         component: () => import("../views/RecordTypes.vue")
       },

@@ -150,13 +150,16 @@ export default {
       recordTypesList: [],
       predefinedRecordsList: {},
       predefinedRecords: {},
+      actionNames: ["income", "expense"],
     };
   },
   methods: {
     async getPredefinedRecordsList() {
       let response = await BookkeepingService.getAllPredefinedRecords();
       if (response) {
-        this.predefinedRecordsList = response.list;
+        this.predefinedRecordsList = response.list.filter(function (e) {
+          return e.actionName.toUpperCase() == "INCOME";
+        });
       }
     },
     async getRecordTypesList() {
@@ -165,12 +168,12 @@ export default {
         this.recordTypesList = response.list;
       }
     },
-     async saveAndEnableView() {
+    async saveAndEnableView() {
       let jsonData = {};
       jsonData.predefinedRecords = this.predefinedRecords;
       let response = await BookkeepingService.addPredefinedRecord(jsonData);
       if (response) {
-        await this.getReconciliationList();
+        await this.getPredefinedRecordsList();
         this.$toast.success(response.message);
       }
     },
@@ -179,14 +182,14 @@ export default {
       jsonData.predefinedRecords = this.predefinedRecords;
       let response = await BookkeepingService.updatePredefinedRecord(jsonData);
       if (response) {
-        await this.getReconciliationList();
+        await this.getPredefinedRecordsList();
         this.$toast.success(response.message);
       }
     },
     async deletePredefinedRecord(id) {
-      let response = await BookkeepingService.Reconcile(id);
+      let response = await BookkeepingService.deletePredefinedRecord(id);
       if (response) {
-        await this.getReconciliationList();
+        await this.getPredefinedRecordsList();
       }
     },
     enableView() {
@@ -200,8 +203,7 @@ export default {
     enableEdit(obj) {
       this.predefinedRecords = obj;
       this.mode = 3;
-    }
-  
+    },
   },
 };
 </script>
