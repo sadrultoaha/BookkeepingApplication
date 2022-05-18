@@ -11,5 +11,9 @@ namespace BookkeepingApi.Models
       public int TypeId {get; set;}
       public DateTime Date {get; set;}
       public decimal Amount {get; set;}
+
+      //Unmapped  
+      public string ActionName { get; set; }
+      public string TypeName { get; set; }
     }
 }
