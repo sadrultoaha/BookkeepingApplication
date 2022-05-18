@@ -2,7 +2,7 @@
   <div class="row">
     <div class="content">
       <div class="col-md-3" style="font-family: cursive">
-        <label>Choose Year</label>
+        <label style="font-size:18px;">Choose Year</label>
         <Select
           :options="years"
           v-model="selectedYear"
@@ -14,6 +14,7 @@
           @click="selectYear()"
         />
       </div>
+      <br />
       <form>
         <div class="col-md-12 form-group">
           <table class="table table-bordered table-responsive">
@@ -44,47 +45,47 @@
               </tr>
               <tr v-for="(item, idx) in predefinedIncomeCostList" :key="idx">
                 <td></td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ idx == "income" ? "Income" : "" }}
                   {{ idx == "cumulativeIncome" ? "Cumulative Income" : "" }}
                   {{ idx == "cost" ? "Cost" : "" }}
                   {{ idx == "cumulativeCost" ? "Cumulative Cost" : "" }}
                   {{ idx == "result" ? "Result" : "" }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.jan != null ? item.jan : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.feb != null ? item.feb : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.mar != null ? item.mar : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.apr != null ? item.apr : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.may != null ? item.may : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.jun != null ? item.jun : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.jul != null ? item.jul : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.aug != null ? item.aug : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.sep != null ? item.sep : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.oct != null ? item.oct : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.nov != null ? item.nov : 0 }}
                 </td>
-                <td :class="[idx != 'result' ? 'dark-gray' : '']">
+                <td :class="[idx != 'result' ? 'fixed-color' : '']">
                   {{ item.dec != null ? item.dec : 0 }}
                 </td>
               </tr>
@@ -92,25 +93,31 @@
                 <th></th>
                 <th colspan="13" style="text-align: center">Reconciliation</th>
               </tr>
-              <template v-if="reconciliationList.length > 0"> 
+              <!-- <template v-if="reconciliationList.length > 0"> -->
               <tr v-for="(item2, idx2) in reconciliationList" :key="idx2">
                 <td
                   v-if="
-                    item2.details == actionWiseTypes[0].typeName.toUpperCase() ||
-                    item2.details == actionWiseTypes[1].typeName.toUpperCase()
+                    item2.details.toUpperCase() ==
+                      actionWiseTypes[0].typeName.toUpperCase() ||
+                    item2.details.toUpperCase() ==
+                      actionWiseTypes[1].typeName.toUpperCase()
                   "
                   :rowspan="item2.numOfTypes"
                 >
-                  {{ item2.action || item2.actionName.toUpperCase() }}
+                  {{
+                    item2.action.toUpperCase() || item2.actionName.toUpperCase()
+                  }}
                 </td>
-                <td :class="[idx2 != 'result' ? 'dark-gray' : '']">
-                  {{ item2.details || item2.typeName.toUpperCase() }}
+                <td>
+                  {{
+                    item2.details.toUpperCase() || item2.typeName.toUpperCase()
+                  }}
                 </td>
                 <td
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'jan')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.jan }}
                 </td>
@@ -118,7 +125,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'feb')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.feb }}
                 </td>
@@ -126,7 +133,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'mar')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.mar }}
                 </td>
@@ -134,7 +141,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'apr')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.apr }}
                 </td>
@@ -142,7 +149,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'may')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.may }}
                 </td>
@@ -150,7 +157,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'jun')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.jun }}
                 </td>
@@ -158,7 +165,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'jul')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.jul }}
                 </td>
@@ -166,7 +173,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'aug')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.aug }}
                 </td>
@@ -174,7 +181,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'sep')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.sep }}
                 </td>
@@ -182,7 +189,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'oct')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.oct }}
                 </td>
@@ -190,7 +197,7 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'nov')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.nov }}
                 </td>
@@ -198,23 +205,64 @@
                   contenteditable
                   @input="(event) => onInput(event, idx2, 'dec')"
                   @keyup.delete="onRemove(idx2)"
-                  :class="[idx2 != 'result' ? 'dark-gray' : '']"
+                  class="edit-color"
                 >
                   {{ item2.dec }}
                 </td>
               </tr>
-              </template>
+              <!-- </template> -->
+              <tr v-for="(item3, idx3) in reconciliationResults" :key="idx3">
+                <td></td>
+                <td>
+                  {{ item3.details || "--" }}
+                </td>
+                <td>
+                  {{ item3.jan != null ? item3.jan : 0 }}
+                </td>
+                <td>
+                  {{ item3.feb != null ? item3.feb : 0 }}
+                </td>
+                <td>
+                  {{ item3.mar != null ? item3.mar : 0 }}
+                </td>
+                <td>
+                  {{ item3.apr != null ? item3.apr : 0 }}
+                </td>
+                <td>
+                  {{ item3.may != null ? item3.may : 0 }}
+                </td>
+                <td>
+                  {{ item3.jun != null ? item3.jun : 0 }}
+                </td>
+                <td>
+                  {{ item3.jul != null ? item3.jul : 0 }}
+                </td>
+                <td>
+                  {{ item3.aug != null ? item3.aug : 0 }}
+                </td>
+                <td>
+                  {{ item3.sep != null ? item3.sep : 0 }}
+                </td>
+                <td>
+                  {{ item3.oct != null ? item3.oct : 0 }}
+                </td>
+                <td>
+                  {{ item3.nov != null ? item3.nov : 0 }}
+                </td>
+                <td>
+                  {{ item3.dec != null ? item3.dec : 0 }}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
-        <div class="col-md-3">
-          
-            <button @click="updateReconciliations" type="button" class="button">
-              Save
-            </button>
-         
-        </div>
       </form>
+      <div class="row justify-content-center">
+        <button @click="updateReconciliations" type="button" class="btn btn-success">
+          Save
+        </button>
+      </div>
+      <br>
     </div>
   </div>
 </template>
@@ -231,19 +279,60 @@ export default {
     Select,
     Datepicker,
   },
+  computed() {},
   async mounted() {
-    await this.getRecordTypesList();  
+    await this.getRecordTypesList();
     await this.getActionWiseOneTypeList();
-    this.recordTypesList.forEach( itm =>
-    {
+    this.recordTypesList.forEach((itm) => {
       var obj = {};
       obj.action = itm.actionName.toUpperCase();
       obj.details = itm.typeName.toUpperCase();
-      obj.year =  Number(this.selectedYear); 
+      obj.year = Number(this.selectedYear);
       obj.typeId = Number(itm.id);
-      obj.numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == itm.actionName;}).length);
+      obj.numOfTypes = Number(
+        this.recordTypesList.filter(function (e) {
+          return e.actionName == itm.actionName;
+        }).length
+      );
+
       this.reconciliationList.push(obj);
     });
+    this.reconciliationList = [];
+    this.reconciliationList = [
+      {
+        year: 2022,
+        details: "bonus",
+        numOfTypes: 2,
+        action: "income",
+        jan: 100,
+        feb: 50,
+      },
+      {
+        year: 2022,
+        details: "salary",
+        numOfTypes: 2,
+        action: "income",
+        jan: 100,
+        feb: 50,
+      },
+      {
+        year: 2022,
+        details: "bills",
+        numOfTypes: 2,
+        action: "expense",
+        jan: 50,
+        feb: 10,
+      },
+      {
+        year: 2022,
+        details: "rent",
+        numOfTypes: 2,
+        action: "expense",
+        jan: 50,
+        feb: 10,
+      },
+    ];
+    await this.calcReconciliationResults();
   },
   data() {
     return {
@@ -253,32 +342,41 @@ export default {
       predefinedIncomeCostList: {
         income: {},
         cumulativeIncome: {},
-        cost:{},
-        cumulativeCost:{},
-        result:{},
+        cost: {},
+        cumulativeCost: {},
+        result: { jan: 50, feb: 100 },
       },
       reconciliationList: [],
+      reconciliationResults: [],
       actionNames: ["income", "expense"],
-      recordTypesList:[],
-      actionWiseTypes: []
+      recordTypesList: [
+        { actionName: "income", typeName: "bonus" },
+        { actionName: "income", typeName: "salary" },
+        { actionName: "expense", typeName: "bills" },
+        { actionName: "expense", typeName: "rent" },
+      ],
+      actionWiseTypes: [{ typeName: "bonus" }, { typeName: "bills" }],
     };
   },
   methods: {
-    onInput(event, index, id) {
+    async onInput(event, index, id) {
       const value = event.target.innerText;
       this.reconciliationList[index][id] = Number(value);
+      this.reconciliationResults = [];
+      await this.calcReconciliationResults();
     },
-    onRemove(index) {
+    async onRemove(index) {
       if (this.reconciliationList[index] >= 1) {
         this.reconciliationList[index] = 0;
       }
+      this.reconciliationResults = [];
+      await this.calcReconciliationResults();
     },
     async selectYear() {
-      if (this.selectedYear != null) {
+      if (this.sele.tedYear != null) {
         await this.getIncomCostList();
         await this.getReconciliationList();
       }
-      
     },
     async getIncomCostList() {
       let response = await BookkeepingService.getPredefinedRecordsByYear(
@@ -286,43 +384,45 @@ export default {
       );
       if (response.list.cost != null) {
         this.predefinedIncomeCostList = response.list;
-      }
-      else
-      {
+      } else {
         this.predefinedIncomeCostList = {};
         this.predefinedIncomeCostList = {
-        income: {},
-        cumulativeIncome: {},
-        cost:{},
-        cumulativeCost:{},
-        result:{},
-        }
+          income: {},
+          cumulativeIncome: {},
+          cost: {},
+          cumulativeCost: {},
+          result: {},
+        };
       }
     },
     async getReconciliationList() {
       let response = await BookkeepingService.getAllReconciliationsByYear(
         this.selectedYear
       );
-      if (response.list.length > 0){
+      if (response.list.length > 0) {
         this.reconciliationList = response.list;
-        for (let i = 0; i < this.reconciliationList.length; i++) 
-        {
-          var obj={};
+        for (let i = 0; i < this.reconciliationList.length; i++) {
+          var obj = {};
           obj.action = this.reconciliationList[i].action;
-          this.reconciliationList[i].numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == obj.action.toLowerCase();}).length);
+          this.reconciliationList[i].numOfTypes = Number(
+            this.recordTypesList.filter(function (e) {
+              return e.actionName.toUpperCase() == obj.action.toUpperCase();
+            }).length
+          );
         }
-      }
-      else
-      {
-        this.reconciliationList= [];
-        this.recordTypesList.forEach( itm => 
-        {
+      } else {
+        this.reconciliationList = [];
+        this.recordTypesList.forEach((itm) => {
           var obj = {};
           obj.action = itm.actionName.toUpperCase();
           obj.details = itm.typeName.toUpperCase();
-          obj.year =  Number(this.selectedYear); 
+          obj.year = Number(this.selectedYear);
           obj.typeId = Number(itm.id);
-          obj.numOfTypes = Number(this.recordTypesList.filter(function(e){ return e.actionName == itm.actionName;}).length);
+          obj.numOfTypes = Number(
+            this.recordTypesList.filter(function (e) {
+              return e.actionName == itm.actionName;
+            }).length
+          );
           this.reconciliationList.push(obj);
         });
       }
@@ -340,15 +440,94 @@ export default {
       }
     },
     async updateReconciliations() {
-     
       let jsonData = {};
       jsonData.ReconciliationRecordList = this.reconciliationList;
       let response = await BookkeepingService.Reconcile(jsonData);
       if (response) {
         await this.getReconciliationList();
         this.$toast.success(response.message);
-        
       }
+    },
+    calcReconciliationResults() {
+      let sumsArray = {};
+      this.reconciliationList.forEach((item) => {
+        let sums = sumsArray[item.action];
+        if (sums) {
+          sums.jan += item.jan;
+          sums.feb += item.feb;
+          sums.mar += item.mar;
+          sums.apr += item.apr;
+          sums.may += item.may;
+          sums.jun += item.jun;
+          sums.jul += item.jul;
+          sums.aug += item.aug;
+          sums.sep += item.sep;
+          sums.oct += item.oct;
+          sums.nov += item.nov;
+          sums.dec += item.dec;
+        } else {
+          sumsArray[item.action] = {
+            details: item.typeName,
+            action: item.action,
+            jan: item.jan,
+            feb: item.feb,
+            mar: item.mar,
+            apr: item.apr,
+            may: item.may,
+            jun: item.jun,
+            jul: item.jul,
+            aug: item.aug,
+            sep: item.sep,
+            oct: item.oct,
+            nov: item.nov,
+            dec: item.dec,
+          };
+        }
+      });
+
+      this.reconciliationResults.push(
+        this.calcArrays(
+          sumsArray.income,
+          sumsArray.expense,
+          "Reconciliation Result",
+          "-"
+        )
+      );
+
+      this.reconciliationResults.push(
+        this.calcArrays(
+          this.reconciliationResults[0],
+          this.predefinedIncomeCostList.result,
+          "Final Result",
+          "+"
+        )
+      );
+      this.reconciliationResults.push(
+        this.calcCumulativeSum(
+          this.reconciliationResults[1],
+          this.reconciliationResults[1],
+          "Cumulative Final Result"
+        )
+      );
+    },
+    calcArrays(a, b, detail, op) {
+      function calcObjectsByKey(...objs) {
+        return objs.reduce((a, b) => {
+          for (let k in b) {
+            if (k == "details") {
+              a[k] = detail;
+            } else if (b.hasOwnProperty(k)) {
+              if (op == "+") a[k] = (a[k] || 0) + (b[k] || 0);
+              else a[k] = -(a[k] || 0) - (b[k] || 0);
+            }
+          }
+          return a;
+        }, {});
+      }
+      return calcObjectsByKey(a, b);
+    },
+    calcCumulativeSum(a, detail) {
+      return a;
     },
   },
 };
@@ -363,39 +542,16 @@ a {
   cursor: pointer;
 }
 
-.year-dropdown {
-  margin-top: 100px;
-}
-.year-dropdown .dropdown-menu {
-  min-width: 8rem !important;
-  padding: 0 !important;
-}
-.year-dropdown .dropdown-divider {
-  margin: 0 !important;
-}
-.table-design table thead tr th,
-tbody tr th {
-  text-align: center;
-}
-.slim-gray {
-  background-color: #f2f2f2;
-}
-.dark-gray {
+.fixed-color {
   background-color: #d9d9d9;
   text-align: right;
 }
 .table thead th,
 .table-bordered td,
 .table-bordered th {
-  border-color: #000 !important;
+  border-color: black;
 }
-.thin-red {
+.edit-color {
   background-color: #fff2cc;
-}
-
-@media (max-width: 575.98px) {
-  .year-dropdown {
-    margin-top: 50px;
-  }
 }
 </style>

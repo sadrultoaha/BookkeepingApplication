@@ -20,7 +20,7 @@
 
 .navbar-text
 {
-    font-size: 110%;
+    font-size: 18px;
     font-family: cursive;
     font-weight: bold;
 }

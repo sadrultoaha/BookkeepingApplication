@@ -2,7 +2,6 @@
   <div class="row">
     <div class="content">
       <h3>Welcome to Bookkeeping In</h3>
-
     </div>
   </div>
 </template>
@@ -11,11 +10,12 @@
 export default {
   name: "Income",
   components: {},
-  async mounted() {},
+  async mounted() {
+    
+  },
   data() {
     return {};
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
