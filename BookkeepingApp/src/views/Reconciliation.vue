@@ -415,18 +415,18 @@ export default {
       this.reconciliationList.forEach((item) => {
         let sums = sumsArray[item.actionName];
         if (sums) {
-          sums.jan += item.jan;
-          sums.feb += item.feb;
-          sums.mar += item.mar;
-          sums.apr += item.apr;
-          sums.may += item.may;
-          sums.jun += item.jun;
-          sums.jul += item.jul;
-          sums.aug += item.aug;
-          sums.sep += item.sep;
-          sums.oct += item.oct;
-          sums.nov += item.nov;
-          sums.dec += item.dec;
+          sums.jan += (item.jan || 0);
+          sums.feb += (item.feb || 0);
+          sums.mar += (item.mar || 0);
+          sums.apr += (item.apr || 0);
+          sums.may += (item.may || 0);
+          sums.jun += (item.jun || 0);
+          sums.jul += (item.jul || 0);
+          sums.aug += (item.aug || 0);
+          sums.sep += (item.sep || 0);
+          sums.oct += (item.oct || 0);
+          sums.nov += (item.nov || 0);
+          sums.dec += (item.dec || 0);
         } else {
           sumsArray[item.actionName] = {
             typeName: item.typeName,
